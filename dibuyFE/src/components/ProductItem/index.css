@@ -1,0 +1,13 @@
+.desingItemCardParentCon {
+    position: relative;
+}
+
+.productSelectCheckbox {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.storeName {
+    font-size: 15px;
+}

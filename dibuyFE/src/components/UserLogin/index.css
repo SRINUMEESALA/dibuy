@@ -1,0 +1,47 @@
+.loginParentCon {
+    background-color: #58243D;
+    height: 100vh;
+}
+
+.cardConLoginSeller {
+    min-height: 60vh;
+    width: 30%;
+}
+
+.WebHeading {
+    color: #58243D;
+}
+
+.newUser {
+    color: #58243D;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.rightArrowImage {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.leftArrowImg {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+
+.websiteLogo {}
+
+.loginHeading {
+    color: #58243D;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.termsConds {
+    cursor: pointer;
+}

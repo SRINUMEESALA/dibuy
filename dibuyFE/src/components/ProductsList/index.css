@@ -1,0 +1,15 @@
+/* .desingPopUp {
+    position: absolute;
+    bottom: 1vh;
+    right: 2vw;
+    background-color: #171f46;
+    height: 10vh;
+} */
+.desingPopUp {
+    position: absolute;
+    bottom: 0vh;
+    left: 19vw;
+    right: 4vw;
+    background-color: #171f46;
+    height: 10vh;
+}
