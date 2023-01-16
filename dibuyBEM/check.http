@@ -1,0 +1,12 @@
+POST http://localhost:4000/user/register
+Content-Type: application/json
+
+{
+    "email":"kesava@gmail.om",
+    "password":"krishna",
+    "name":"radha",
+    "mobile":"2222222222",
+    "location":"female",
+    "gender":"female",
+    "isSeller":true
+}
