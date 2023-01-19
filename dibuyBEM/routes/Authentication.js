@@ -1,5 +1,7 @@
 import express from "express"
 import User from "../models/users.js"
+import nodemailer from "nodemailer"
+import { v4 as uuidv4 } from "uuid"
 const authenticationRoute = new express.Router()
 
 let otpsList = []
@@ -81,15 +83,14 @@ const sendOtp = async (request, response) => {
 
             } else {
                 console.log("OTP generated")
-                response.send({ msg: "OTP successfully sent" })
                 const otpId = uuidv4()
                 otpsList.push({ UserEmail, generatedOtp, id: otpId })
-                console.log(otpsList)
                 setTimeout(() => {
                     const updatedList = otpsList.filter(obj => obj.id !== otpId)
                     otpsList = updatedList
                     console.log(otpsList)
                 }, 600000)
+                response.send({ msg: "OTP successfully sent" })
             }
         });
     }
@@ -101,7 +102,7 @@ const sendOtp = async (request, response) => {
 
 const verifyOtp = async (request, response) => {
     const { receivedOtp, UserEmail } = request.body
-    console.log(request.body)
+    console.log(request.body, otpsList)
     const isValidOtp = (otpsList.filter(obj => obj.generatedOtp === receivedOtp && obj.UserEmail === UserEmail)).length === 1
     if (isValidOtp) {
         response.status(200)

@@ -2,12 +2,23 @@
     position: relative;
 }
 
-.productSelectCheckbox {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-}
-
 .storeName {
     font-size: 15px;
+}
+
+.link {
+    all: unset;
+}
+
+.link:hover {
+    all: unset;
+    cursor: pointer;
+}
+
+.productHeading {
+    color: #171f46;
+}
+
+.productImage {
+    height: 180px;
 }

@@ -1,161 +1,204 @@
 import { useEffect, useState } from "react"
-import { v4 as uuidv4 } from "uuid"
+import Loader from 'react-loader-spinner'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import { HiOutlineSearch } from "react-icons/hi";
 import { BsFilterSquare } from "react-icons/bs";
-import ColorContainer from "./styledComponents"
-import Checkbox from '@mui/material/Checkbox';
+import Rating from '@mui/material/Rating';
 import Header from "../Header"
 import Footer from "../Footer"
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import "./index.css"
 import ProductsList from "../ProductsList";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 // for MiUi styles
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
 // Filter Options
-const fabricItems = [{ fabric: "Polo t-shirt", id: "POLOTSHIRT" }, { fabric: "Cotton t-shirt", id: "COTTONTSHIRT" }, { fabric: "Matty t-shirt", id: "MATTYTSHIRT" }, { fabric: "Dryfit t-shirt", id: "DRYFITTSHIRT" }]
-const neckItems = [{ neckType: "Round neck", id: "ROUNDNECK" }, { neckType: "V-Neck", id: "VNECK" }, { neckType: "Collar", id: "COLLAR" }]
-const sleeveItems = [{ sleeveType: "Half Sleeves", id: "HALFSLEEVES" }, { sleeveType: "Full Sleeves", id: "FULLSLEEVES" }]
-const availableColors = [
-    { label: "Green", id: "GREEN" }, { label: "Yellow", id: "YELLOW" }, { label: "Blue", id: "BLUE" }, { label: "Pink", id: "PINK" }, { label: "Violet", id: "VIOLET" }, { label: "Grey", id: "GREY" }
+const CategoryItems = [
+    { label: "All", id: "All" }, { label: "Clothing", id: "Clothing" }, { label: "Electronics", id: "Electronics" }, { label: "Vegetables", id: "Vegetables" }, { label: "Farming", id: "Farming" }, { label: "Spices", id: "Spices" }
 ];
 
-const tempProductDesigns = [{ data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }, { data: null, id: uuidv4() }]
+const apiStatusConstants = {
+    fail: "Failed",
+    success: "Successful",
+    load: "Loading"
+}
 
 const Products = () => {
-    const [fabric, setFabric] = useState([])
-    const [neckType, setNectType] = useState([])
-    const [sleeveType, setSleeveType] = useState([])
-    const [currentSelectedColor, setCurrentSelectedColor] = useState("YELLOW")
-    const [desingsList, setDesignsList] = useState(tempProductDesigns)
 
-    // console.log("filters applied", fabric, neckType, sleeveType, currentSelectedColor)
+    const [products, setProducts] = useState([{}])
+    const [sortByPrice, setSortByPrice] = useState("HighToLow")
+    const [sortByRating, setSortByRating] = useState(1)
+    const [searchInput, setSearchInput] = useState("")
+    const [sortByCategory, setSortByCategory] = useState("All")
+    const [productsApiStatus, setProductsApiStatus] = useState("initial")
+
+    console.log(sortByPrice, sortByRating, sortByCategory, searchInput)
+
+    const getProducts = async () => {
+        setProductsApiStatus(apiStatusConstants.load)
+        const url = `http://localhost:4000/products?category=${sortByCategory}&price=${sortByPrice}&quality=${sortByRating}&search=${searchInput}`
+        const options = {
+            method: "GET"
+        }
+        try {
+            const response = await fetch(url, options)
+            const productsList = await response.json()
+            console.log(url, productsList)
+            if (response.ok) {
+                setProducts(productsList.productsList)
+                setProductsApiStatus(apiStatusConstants.success)
+            } else {
+                setProductsApiStatus(apiStatusConstants.fail)
+            }
+        } catch (err) {
+            console.log("Oops! something went wrong.")
+        }
+    }
 
     useEffect(() => {
-        // do the api call here for the product desings list
-    }, [])
+        getProducts()
+    }, [sortByRating, sortByPrice, sortByCategory])
 
-    const onClickSelectColor = (colorId) => {
-        setCurrentSelectedColor(colorId)
-    }
-
-    const onChangeFabric = (event, fabricId) => {
-        if (event.target.checked) {
-            setFabric((prevousFabricList) => [...prevousFabricList, fabricId])
-
-        } else {
-            const updatedList = fabric.filter(item => item !== fabricId)
-            setFabric(updatedList)
-
-        }
-    }
-
-    const onChangeNeckType = (event, neckTypeId) => {
-        if (event.target.checked) {
-            setNectType((prevousNeckTypeList) => [...prevousNeckTypeList, neckTypeId])
-        } else {
-            const updatedList = neckType.filter(item => item !== neckTypeId)
-            setNectType(updatedList)
-        }
-    }
-
-    const onChangeSleeveType = (event, sleeveTypeId) => {
-        if (event.target.checked) {
-            setSleeveType((prevousSleeveTypeList) => [...prevousSleeveTypeList, sleeveTypeId])
-        } else {
-            const updatedList = sleeveType.filter(item => item !== sleeveTypeId)
-            setSleeveType(updatedList)
-        }
-    }
-
-    const renderFabricItems = () => (
+    const renderSortByPrice = () => (
         <div className="">
-            <h1 className="h6">Fabric</h1>
+            <h1 className="h6">Price</h1>
             <ul className="list-unstyled">
-                {fabricItems.map(fabricObj => <li className="d-flex justify-content-between" key={uuidv4()}>
-                    <label className="m-1 text-secondary filterItem" htmlFor={`${fabricObj.id}CL`}>{fabricObj.fabric}</label>
-                    <Checkbox {...label} size="small" checked={fabric.includes(fabricObj.id)} defaultValue={fabricObj.id} id={`${fabricObj.id}CL`} onChange={(event) => onChangeFabric(event, fabricObj.id)} />
-                    {/* <input type="checkbox" name={fabricObj.id} /> */}
-                </li>)}
+                <li>
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="HighToLow"
+                        name="radio-buttons-group"
+                        onChange={(event) => setSortByPrice(event.target.value)}
+                        value={sortByPrice}
+                    >
+                        <FormControlLabel value="HighToLow" control={<Radio size="small" />} label="High To Low" style={{ fontSize: '4rem' }} />
+                        <FormControlLabel value="LowToHigh" control={<Radio size="small" />} label="Low To High" />
+                    </RadioGroup>
+                </li>
             </ul>
         </div>
     )
 
-    const renderNectTypeItems = () => (
+    const renderSortByRating = () => (
         <div className="">
-            <h1 className="h6">Neck Type</h1>
-            <ul className="list-unstyled">
-                {neckItems.map(neckTypeObj => <li className="d-flex justify-content-between" key={uuidv4()}>
-                    <label className="m-1  text-secondary filterItem" htmlFor={`${neckTypeObj.id}CL`}>{neckTypeObj.neckType}</label>
-                    <Checkbox {...label} size="small" checked={neckType.includes(neckTypeObj.id)} id={`${neckTypeObj.id}CL`} onChange={(event) => onChangeNeckType(event, neckTypeObj.id)} />
-                    {/* <input type="checkbox" name={neckTypeObj.id} /> */}
-                </li>)}
-            </ul>
+            <h1 className="h6">Rating</h1>
+            <Rating name="size-medium" value={sortByRating} onChange={(event, rating) => setSortByRating(rating)} />
         </div>
     )
 
-    const renderSleeveTypeItems = () => (
+    const renderSortByCategory = () => (
         <div className="">
-            <h1 className="h6">Sleeve Type</h1>
-            <ul className="list-unstyled">
-                {sleeveItems.map(sleeveObj => <li className="d-flex justify-content-between" key={uuidv4()}>
-                    <label className="m-1  text-secondary filterItem" htmlFor={`${sleeveObj.id}CL`}>{sleeveObj.sleeveType}</label>
-                    <Checkbox {...label} size="small" defaultValue={sleeveObj.id} id={`${sleeveObj.id}CL`} onChange={(event) => onChangeSleeveType(event, sleeveObj.id)} checked={sleeveType.includes(sleeveObj.id)} />
-                    {/* <input type="checkbox" name={sleeveObj.id} /> */}
-                </li>)}
-            </ul>
-        </div>
-    )
-
-    const renderAvailableColors = () => (
-        <div className="">
-            <h1 className="h6 mb-3">Color</h1>
+            <h1 className="h6 mb-3">Category</h1>
             <div className="input-group mb-3 d-flex">
                 <div className="searchInputCon">
                     <Autocomplete
                         disablePortal
                         id="combo-box-demo"
-                        options={availableColors}
+                        options={CategoryItems}
                         sx={{ width: 300 }}
                         size="small"
-                        renderInput={(params) => <TextField {...params} label="Search" />}
+                        renderInput={(params) => <TextField {...params} label="category" />}
                         className="w-100"
-                        value={currentSelectedColor}
-                        onChange={(event, colorObj) => onClickSelectColor(colorObj.label)}
+                        value={sortByCategory}
+                        onChange={(event, selectedObj) => setSortByCategory(selectedObj.id)}
                     />
                 </div>
-                <div className="colorSearchIconCon mb-0 ml-1">
-                    <HiOutlineSearch className="h-100 text-secondary h5 align-self-center mb-0 " />
-                </div>
             </div>
-            <ul className="list-unstyled d-flex flex-wrap justify-content-around">
-                {availableColors.map(colorObj => <li className="col-4 text-center d-flex flex-column justify-content-center align-items-center" onClick={() => onClickSelectColor(colorObj.id)} key={uuidv4()}>
-                    <ColorContainer className="rounded-circle align-self-center" bgColor={colorObj.label}></ColorContainer>
-                    <p className={currentSelectedColor === colorObj.id ? "small websiteNativeColor font-weight-bold" : "small"}>{colorObj.label}</p>
-                </li>)}
-            </ul>
         </div>
     )
+
+    const renderSortBySearch = () => (<>
+        <h1 className="h6 mb-0">Search</h1>
+        <div className="d-flex mb-3">
+            <TextField id="standard-basic" label="Latest..." variant="standard" onChange={(event) => setSearchInput(event.target.value)} value={searchInput} />
+            <div className="colorSearchIconCon mb-0 ml-1">
+                <button type="button" className="btn p-0 m-0" onClick={getProducts}><HiOutlineSearch className="h-100 text-secondary h5 align-self-center mb-0 " /></button>
+            </div>
+        </div>
+    </>)
+
+    const allClear = () => {
+        setSortByCategory("All")
+        setSortByPrice("HighToLow")
+        setSortByRating(1)
+        setSearchInput("")
+        getProducts()
+    }
+
+    const renderSuccessView = () => (
+        <div className="productsCon align-self-center d-flex justify-content-between">
+            <div className="filterSectionCon p-3 overflow-auto d-none d-md-block">
+                <div className="d-flex justify-content-between mb-3">
+                    <h1 className="h5 filterHeading">Filter</h1>
+                    <BsFilterSquare className="websiteNativeColor h5" />
+                </div>
+                {renderSortBySearch()}
+                {renderSortByCategory()}
+                {renderSortByPrice()}
+                {renderSortByRating()}
+                <button type="button" className="btn btn-danger btn-small float-right mt-3 p-1 pr-2 pl-2" onClick={allClear}>Clear All</button>
+            </div>
+            <ProductsList productsList={products} />
+        </div>
+    )
+
+    const renderFailureView = () => (
+        <div className="failview min-vh-100 d-flex flex-column justify-content-center align-items-center">
+            <div>
+                <div className="text-center">
+                    <img
+                        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-error-view-img.png"
+                        alt="products failure"
+                        className="sizeFailure"
+                    />
+                </div>
+                <h1 className="text-center">Something Went Wrong.</h1>
+                <div className="text-center">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={getProducts}
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        </div>
+    )
+
+    const renderLoadingView = () => (
+        <div
+            className="text-center loader d-flex justify-content-center align-items-center vh-100"
+            testid="loader"
+        >
+            <Loader type="BallTriangle" color="#FF5454" height={50} width={50} />
+        </div>
+    )
+
+    const decideRendering = () => {
+        switch (productsApiStatus) {
+            case apiStatusConstants.fail:
+                return renderFailureView()
+            case apiStatusConstants.success:
+                return renderSuccessView()
+            case apiStatusConstants.load:
+                return renderLoadingView()
+            default:
+                break;
+        }
+    }
+
 
     return (
         <div className="d-flex flex-column customerPrototypeCon">
             <Header />
-            <div className="productsCon align-self-center d-flex justify-content-between">
-                <div className="filterSectionCon p-3 overflow-auto d-none d-md-block">
-                    <div className="d-flex justify-content-between mb-3">
-                        <h1 className="h5 filterHeading">Filter</h1>
-                        <BsFilterSquare className="websiteNativeColor h5" />
-                    </div>
-                    {renderFabricItems()}
-                    {renderNectTypeItems()}
-                    {renderSleeveTypeItems()}
-                    {renderAvailableColors()}
-                </div>
-                <ProductsList desingsList={desingsList} />
-            </div>
+            {decideRendering()}
             <Footer />
         </div>
     )

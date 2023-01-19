@@ -51,6 +51,11 @@
     text-decoration: underline;
 }
 
+.sizeFailure {
+    width: 60vw;
+    height: 60vh;
+}
+
 @media screen and (min-width:768px) {
     .productCardsCon {
         width: 82%;
