@@ -15,6 +15,7 @@ const register = async (request, response) => {
     } catch (err) {
         response.status(400);
         response.send({ msg: "User already exists or Some other problem araised!" });
+        console.log(err)
     }
 }
 
@@ -38,6 +39,18 @@ const login = async (request, response) => {
     }
 }
 
+const verifyUser = async (request, response) => {
+    console.log("Verify User triggered")
+    const { email } = request.body
+    const user = await User.find({ email })
+    if (user.length !== 0) {
+        response.status(200)
+        response.send({ msg: "User Already Exists", exist: true })
+    } else {
+        response.status(400)
+        response.send({ msg: "User Doesnot Exists", exist: false })
+    }
+}
 //use app password in google security tab in googel mangage account settings
 
 const sendOtp = async (request, response) => {
@@ -124,6 +137,7 @@ authenticationRoute.post("/user/register", register)
 authenticationRoute.post("/user/login", login);
 authenticationRoute.post("/user/sendotp", sendOtp)
 authenticationRoute.post("/user/verifyotp", verifyOtp)
+authenticationRoute.post("/user/verify", verifyUser)
 
 
 export default authenticationRoute

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from "react-router-dom"
 import Slide from '@mui/material/Slide';
 import { withRouter } from "react-router-dom"
 import TextField from '@mui/material/TextField';
@@ -81,14 +82,33 @@ const UserLogin = (props) => {
         }
     }
 
-    const onClickGetOtp = () => {
+
+    const onClickGetOtp = async () => {
         const regex = new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
         const CheckingEmail = regex.test(email)
         if (CheckingEmail) {
-            setSentOtp(true)
-            setIsValidEmail(true)
-            sendOtp()
-            setSnackBarOpen(true)
+            // verify user in db
+            console.log("isUserExists triggered")
+            const options = {
+                method: "POST",
+                body: JSON.stringify({
+                    email
+                }),
+                headers: { 'Content-Type': 'application/json' }
+            }
+            const response = await fetch("http://localhost:4000/user/verify", options)
+            const result = await response.json()
+            const isUserExists = result.exist
+            if (isUserExists) {
+                setSentOtp(true)
+                setIsValidEmail(true)
+                sendOtp()
+                setSnackBarOpen(true)
+            } else {
+                const { history } = props
+                history.replace("/register")
+            }
+
         } else {
             setIsValidEmail(false)
         }
@@ -155,7 +175,7 @@ const UserLogin = (props) => {
             </div>
             <div >
                 <Button variant="contained" className='w-100 mt-3' style={{ backgroundColor: "#58243D" }} onClick={onClickGetOtp}>Get OTP</Button>
-                <p className='small text-center mt-2 newUser'>Register as a new user?</p>
+                <p className='small text-center mt-2 newUser'><Link to="/register">Register as a new user?</Link></p>
             </div>
         </div>
     )
@@ -250,7 +270,6 @@ const UserLogin = (props) => {
             <div className="card  text-secondary cardConLoginSeller">
                 {isValidOtp && <LinearProgress sx={{ width: "100%" }} />}
                 <div className="card-header text-center p-3">
-                    {/* <img src="https://res.cloudinary.com/radhekrishn/image/upload/v1671690028/Group_aq9pzb.png" alt="printilaLogo" className="websiteLogo" /> */}
                     <h1 className="h2 WebHeading">DiBuy</h1>
                 </div>
                 {sentOtp ? renderMobileVerificationScreen() : renderMobileEnteringScreen()}
