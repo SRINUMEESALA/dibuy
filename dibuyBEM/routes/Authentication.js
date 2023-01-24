@@ -2,6 +2,7 @@ import express from "express"
 import User from "../models/users.js"
 import nodemailer from "nodemailer"
 import { v4 as uuidv4 } from "uuid"
+import jwt from "jsonwebtoken"
 const authenticationRoute = new express.Router()
 
 let otpsList = []
@@ -120,8 +121,10 @@ const verifyOtp = async (request, response) => {
     console.log(request.body, otpsList)
     const isValidOtp = (otpsList.filter(obj => obj.generatedOtp === receivedOtp && obj.UserEmail === UserEmail)).length === 1
     if (isValidOtp) {
+        const payload = { UserEmail };
+        const jwtToken = jwt.sign(payload, "secret_token");
         response.status(200)
-        response.send({ msg: "Login success" })
+        response.send({ msg: "Login success", jwt_Token: jwtToken })
 
     } else {
         response.status(400)

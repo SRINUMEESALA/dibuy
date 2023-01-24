@@ -1,6 +1,7 @@
 
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import { useState } from 'react';
+import Cookies from "js-cookie";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -22,9 +23,15 @@ import DiBuyContext from "../../context/DiBuyContext";
 const screenSize = window.innerWidth
 const navItems = [{ item: "Products", id: 1, path: "/products" }, { item: "FairPrice", id: 2, path: "/fairprice" }, { item: "Cart", id: 3, path: "/cart" }]
 const openingSide = "right";
-const Header = () => {
+const Header = (props) => {
     const [state, setState] = useState({ "right": false });
     const sliderSize = screenSize < 768 ? 170 : 250;
+
+    const logout = () => {
+        Cookies.remove("jwtToken")
+        const { history } = props
+        history.replace("/user/login")
+    }
 
     const toggleDrawer = (openingSide, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -54,9 +61,9 @@ const Header = () => {
             </List>
             <Divider />
             <List>
-                {[{ displayText: 'Logout', icon: <FiLogOut className="h5 m-0" /> }].map((obj, index) => (
+                {[{ displayText: 'Logout', icon: <FiLogOut className="h5 m-0" />, }].map((obj, index) => (
                     <ListItem key={obj.displayText} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={logout}>
                             <ListItemIcon>
                                 {obj.icon}
                             </ListItemIcon>
@@ -121,4 +128,4 @@ const Header = () => {
 }
 
 
-export default Header
+export default withRouter(Header)

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
+import Cookies from "js-cookie"
 import Slide from '@mui/material/Slide';
 import { withRouter } from "react-router-dom"
 import TextField from '@mui/material/TextField';
@@ -18,6 +19,7 @@ import MuiAlert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
+import { serverUrl } from "../../sources";
 import "./index.css"
 import { useState } from 'react';
 
@@ -38,7 +40,13 @@ const UserLogin = (props) => {
 
     // console.log(email, isValidEmail)
     // console.log(otp, isValidOtp)
-    console.log("rendereed", sentOtp)
+    // console.log("rendereed", sentOtp)
+    const isUserLoggedIn = () => {
+        if (Cookies.get("jwtToken") !== undefined) {
+            return <Redirect to="/" />
+        }
+    }
+    isUserLoggedIn()
 
     const options = {
         method: "POST",
@@ -50,7 +58,7 @@ const UserLogin = (props) => {
 
     const sendOtp = async () => {
         setSnackBarOpen(true)
-        const response = await fetch("http://localhost:4000/user/sendotp", options)
+        const response = await fetch(`${serverUrl}/user/sendotp`, options)
         const data = await response.json()
         console.log(data)
 
@@ -66,11 +74,13 @@ const UserLogin = (props) => {
             }),
             headers: { 'Content-Type': 'application/json' }
         }
-        const response = await fetch("http://localhost:4000/user/verifyotp", options2)
+        const response = await fetch(`${serverUrl}/user/verifyotp`, options2)
         const data = await response.json()
-        console.log(response)
+        // console.log(response)
         console.log(data)
         if (response.ok) {
+            const jwtToken = data.jwt_Token
+            Cookies.set("jwtToken", jwtToken, { expires: 1 })
             setIsValidOtp(true)
             setTimeout(() => {
                 const { history } = props
@@ -96,7 +106,7 @@ const UserLogin = (props) => {
                 }),
                 headers: { 'Content-Type': 'application/json' }
             }
-            const response = await fetch("http://localhost:4000/user/verify", options)
+            const response = await fetch(`${serverUrl}/user/verify`, options)
             const result = await response.json()
             const isUserExists = result.exist
             if (isUserExists) {

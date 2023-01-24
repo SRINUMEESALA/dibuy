@@ -4,6 +4,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
+import { serverUrl } from "../../sources";
 import { useState } from "react";
 
 const Register = (props) => {
@@ -26,7 +27,7 @@ const Register = (props) => {
             }),
             headers: { 'Content-Type': 'application/json' }
         }
-        const response = await fetch("http://localhost:4000/user/register", options)
+        const response = await fetch(`${serverUrl}/user/register`, options)
         const result = await response.json()
         if (response.ok) {
             setSuccess(true)

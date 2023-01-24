@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 import Footer from "../Footer"
 import Header from "../Header"
 
@@ -12,7 +12,7 @@ const Home = () => {
             <Header />
             <div className="HomeParentCon align-self-center">
                 <h1 className="text-primary">Welcome and Say RadheRadhe</h1>
-
+                <Link to="/user/login">Login page</Link>
             </div>
             <Footer />
         </div>

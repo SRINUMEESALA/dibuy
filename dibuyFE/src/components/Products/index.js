@@ -9,6 +9,7 @@ import Header from "../Header"
 import Footer from "../Footer"
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import "./index.css"
+import { serverUrl } from "../../sources";
 import ProductsList from "../ProductsList";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -42,7 +43,7 @@ const Products = () => {
 
     const getProducts = async () => {
         setProductsApiStatus(apiStatusConstants.load)
-        const url = `http://localhost:4000/products?category=${sortByCategory}&price=${sortByPrice}&quality=${sortByRating}&search=${searchInput}`
+        const url = `${serverUrl}/products?category=${sortByCategory}&price=${sortByPrice}&quality=${sortByRating}&search=${searchInput}`
         const options = {
             method: "GET"
         }
