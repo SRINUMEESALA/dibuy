@@ -3,10 +3,7 @@
     height: 100vh;
 }
 
-.cardConLoginSeller {
-    min-height: 60vh;
-    width: 30%;
-}
+
 
 .WebHeading {
     color: #58243D;
@@ -44,4 +41,26 @@ input::-webkit-inner-spin-button {
 
 .termsConds {
     cursor: pointer;
+}
+
+@media screen and (max-width:767px) {
+    .cardConLoginSeller {
+        min-height: 60vh;
+        width: 80%;
+    }
+
+    .rightArrowImage {
+        z-index: -1;
+    }
+
+    .leftArrowImg {
+        z-index: -1;
+    }
+}
+
+@media screen and (min-width:768px) {
+    .cardConLoginSeller {
+        min-height: 60vh;
+        width: 30%;
+    }
 }
