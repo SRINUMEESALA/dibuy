@@ -70,7 +70,8 @@ const sendOtp = async (request, response) => {
             secure: false, // true for 465, false for other ports
             auth: {
                 user: "dibuyindia@gmail.com", // generated ethereal user
-                pass: "ypbxrkdkchrzkxwj", // generated ethereal password
+                // pass: "ypbxrkdkchrzkxwj", // generated ethereal password
+                pass: "wljeddklerpagoyz", // generated ethereal password
             },
         });
 
@@ -90,9 +91,10 @@ const sendOtp = async (request, response) => {
         // send mail with defined transport object
         let info = await transporter.sendMail(options, (error, info) => {
             if (error) {
-                // console.log(error)
+                console.log(error)
                 response.status(400)
                 response.send({ msg: "Something Went Wrong" })
+
 
             } else {
                 console.log("OTP generated")
