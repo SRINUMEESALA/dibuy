@@ -89,7 +89,7 @@ const Products = () => {
     const renderSortByRating = () => (
         <div className="">
             <h1 className="h6">Rating</h1>
-            <Rating name="size-medium" value={sortByRating} onChange={(event, rating) => setSortByRating(rating)} />
+            <Rating name="size-medium" value={sortByRating} onChange={(event, rating) => setSortByRating(parseFloat(rating))} />
         </div>
     )
 

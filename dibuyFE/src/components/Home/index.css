@@ -1,3 +1,20 @@
+.joinSeller,
+.schemCon,
+.believeUs {
+    background-color: #F0FFFF;
+}
+
+.chrono-container {
+    width: 60vw;
+    height: 90vh;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+}
+
+
 @media screen and (min-width:767px) {
     .HomeParentCon {
         min-height: 150vh;
@@ -10,6 +27,11 @@
         min-height: 100vh;
         width: 95%;
 
+    }
+
+    .chrono-container {
+        width: 95vw;
+        height: 90vh;
     }
 
     .HomeParentCon::-webkit-scrollbar {
