@@ -19,6 +19,19 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { BsChatRightDotsFill } from "react-icons/bs";
 import "./index.css"
 import DiBuyContext from "../../context/DiBuyContext";
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: -3,
+        top: 13,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: '0 4px',
+    },
+}));
 
 const screenSize = window.innerWidth
 const navItems = [{ item: "Products", id: 1, path: "/products" }, { item: "FairPrice", id: 2, path: "/fairprice" }, { item: "Cart", id: 3, path: "/cart" }]
@@ -39,6 +52,23 @@ const Header = (props) => {
         }
         setState({ [openingSide]: open });
     };
+
+    const renderCart = () => (<>
+        <DiBuyContext.Consumer>
+            {value => {
+                const { cartCount } = value
+                return (
+                    <IconButton aria-label="cart">
+                        <StyledBadge badgeContent={cartCount} color="secondary">
+                            <ShoppingCartIcon color="info" />
+                        </StyledBadge>
+                    </IconButton>
+                )
+            }}
+        </DiBuyContext.Consumer>
+
+    </>)
+
 
     const slide = (openingSide, size) => (
         <Box
@@ -87,7 +117,7 @@ const Header = (props) => {
                                         <h1 className="pt-2 pb-2"><Link to="/" className="navLink" onClick={() => setCurrentRoute("")}><span className="websiteNativeColor">Di</span>Buy</Link></h1>
                                         <div className="d-flex">
                                             <ul className="list-unstyled d-flex m-0">
-                                                {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? "mr-3 websiteNativeBgColor p-2 d-flex align-items-center navItem justify-content-center" : "mr-3 d-flex align-items-center navItem justify-content-center"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span></Link></li>)}
+                                                {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? "mr-3 websiteNativeBgColor p-2 d-flex align-items-center navItem justify-content-center" : "mr-3 d-flex align-items-center navItem justify-content-center"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span>{eachItem.item === "Cart" && renderCart()}</Link></li>)}
                                             </ul>
                                             <button className="btn text-white align-self-center" type="button" onClick={toggleDrawer(openingSide, true)}>More <FcNext className="text-light m-0 font-weight-bold" /></button>
                                         </div>
@@ -106,7 +136,6 @@ const Header = (props) => {
                                     <div className="collapse navbar-collapse" id="navbarNav">
                                         <ul className="navbar-nav text-center">
                                             {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? "mr-3 websiteNativeBgColor p-2" : "mr-3"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span></Link></li>)}
-                                            {/* {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? " text-danger p-2" : ""} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><span>{eachItem.item}</span></li>)} */}
                                         </ul>
                                     </div>
                                 </nav>

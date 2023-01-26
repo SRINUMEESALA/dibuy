@@ -2,10 +2,12 @@ import "./index.css"
 /* eslint-disable react/no-unknown-property */
 import { Component } from 'react'
 import { BsPlusSquare, BsDashSquare } from 'react-icons/bs'
+import Cookies from "js-cookie"
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import './index.css'
 import Header from '../Header'
+import { serverUrl } from "../../sources";
 
 const apiStatusConstants = {
     fail: "Failed",
@@ -19,9 +21,31 @@ class ProductItemDetails extends Component {
         count: 1
     }
 
+    addProductToCart = async () => {
+        const { match } = this.props
+        const { params } = match
+        const { id } = params
+        const url = `${serverUrl}/user/cart/update`
+        const options = {
+            method: "POST",
+            body: JSON.stringify({
+                productId: id,
+                quantity: this.state.count
+            }),
+            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${Cookies.get("jwtToken")}` }
+        }
+        const response = await fetch(url, options)
+        if (response.ok) {
+            const { history } = this.props
+            history.replace("/cart")
+        }
+    }
+
     componentDidMount() {
         this.fetchProductDetails()
     }
+
+
 
     fetchProductDetails = async () => {
         this.setState({ apiStatus: apiStatusConstants.load })
@@ -131,32 +155,10 @@ class ProductItemDetails extends Component {
                                 <span className="font-weight-bold">About: </span>
                                 {description}
                             </p>
-
-                            <div className="d-flex">
-
-                                <button
-                                    type="button"
-                                    className="buttonPlus"
-                                    testid="minus"
-                                    onClick={() => this.changeQuantity("minus")}
-                                >
-                                    <BsDashSquare />
-                                </button>
-                                <p className="align-self-center p-1 m-0 font-weight-bold h6">
-                                    {count}
-                                </p>
-                                <button
-                                    type="button"
-                                    className="buttonPlus"
-                                    testid="plus"
-                                    onClick={() => this.changeQuantity("plus")}
-                                >
-                                    <BsPlusSquare />
-                                </button>
-                            </div>
                             <button
                                 type="button"
                                 className="btn btn-primary align-self-start"
+                                onClick={this.addProductToCart}
                             >
                                 Add to Cart
                             </button>

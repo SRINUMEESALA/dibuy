@@ -1,0 +1,23 @@
+.cartCon {
+    width: 92%;
+    height: 90vh;
+}
+
+.productsCon,
+.summaryCon {
+    background-color: #F0FFFF;
+}
+
+.quantity {
+    width: 80px;
+    height: 25px;
+}
+
+.pill {
+    background-color: #E8E8E8;
+}
+
+.productCartImage {
+    height: 70px;
+    width: 70px;
+}

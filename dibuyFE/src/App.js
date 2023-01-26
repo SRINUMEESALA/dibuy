@@ -12,17 +12,39 @@ import Temp from './components/Temp'
 import UserLogin from "./components/UserLogin"
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import DiBuyContext from './context/DiBuyContext'
+import { useEffect } from 'react'
+import { serverUrl } from "./sources"
+import Cookies from "js-cookie"
 
 document.title = "DiBuy";
 const App = () => {
   const [currentRoute, setCurrentRoute] = useState("")
+  const [cartCount, setCartCount] = useState(0)
+
+  const getCartCount = async () => {
+    const url = `${serverUrl}/user/cart`
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("jwtToken")}`
+      }
+    }
+    const productsFet = await fetch(url, options)
+    const { cart } = await productsFet.json()
+    setCartCount(cart.length)
+  }
+
+  useEffect(() => {
+    getCartCount()
+  }, [])
+
   return (
-    <DiBuyContext.Provider value={{ currentRoute, setCurrentRoute }}>
+    <DiBuyContext.Provider value={{ currentRoute, setCurrentRoute, cartCount, setCartCount }}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/user/login" component={UserLogin} />
           <Route exact path="/register" component={Register} />
-          <Route exact path="/" component={Home} />
+          <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/products" component={Products} />
           <ProtectedRoute exact path="/fairprice" component={FairPrice} />
           <ProtectedRoute exact path="/cart" component={Cart} />

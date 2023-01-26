@@ -15,29 +15,8 @@ import { Link } from 'react-router-dom'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Fade from '@mui/material/Fade';
-import Zoom from '@mui/material/Zoom';
 
-const LightTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: theme.palette.common.white,
-        color: 'rgba(0, 0, 0, 0.87)',
-        boxShadow: theme.shadows[1],
-        fontSize: 11,
-    },
-}));
 
-const BootstrapTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} arrow classes={{ popper: className }} />
-))(({ theme }) => ({
-    [`& .${tooltipClasses.arrow}`]: {
-        color: theme.palette.common.black,
-    },
-    [`& .${tooltipClasses.tooltip}`]: {
-        backgroundColor: theme.palette.common.black,
-    },
-}));
 
 const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -145,7 +124,7 @@ const TopSellingProducts = () => {
             </button>
             <Slider {...settings} ref={slider}>
                 {topProducts.map(obj => (
-                    <Link to={`/product/${obj._id}`} className='link'>
+                    <Link to={`/product/${obj._id}`} className='link' key={uuidv4()}>
 
                         <HtmlTooltip TransitionComponent={Fade}
                             TransitionProps={{ timeout: 600 }}

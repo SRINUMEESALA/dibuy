@@ -9,8 +9,9 @@ let otpsList = []
 
 const register = async (request, response) => {
     const { name, email, mobile, password, location, gender } = request.body;
+    const newDataObj = { ...request.body, cart: [] }
     try {
-        const user = await User(request.body).save()
+        const user = await User(newDataObj).save()
         response.status(200);
         response.send({ msg: `User Registered successfully with id ${user._id}` });
     } catch (err) {
@@ -122,7 +123,7 @@ const verifyOtp = async (request, response) => {
     const isValidOtp = (otpsList.filter(obj => obj.generatedOtp === receivedOtp && obj.UserEmail === UserEmail)).length === 1
     if (isValidOtp) {
         const payload = { UserEmail };
-        const jwtToken = jwt.sign(payload, "secret_token");
+        const jwtToken = jwt.sign(payload, process.env.secretCode);
         response.status(200)
         response.send({ msg: "Login success", jwt_Token: jwtToken })
 
@@ -133,6 +134,17 @@ const verifyOtp = async (request, response) => {
     }
 }
 
+const userDetails = async (request, response) => {
+    try {
+        const result = await User.find({ email: request.params.email })
+        response.status(200)
+        response.send({ user: result[0] })
+    } catch (err) {
+        console.log(err)
+        response.status(404)
+        response.send({ msg: "user doesnot exists" })
+    }
+}
 
 
 
@@ -143,6 +155,12 @@ authenticationRoute.post("/user/login", login);
 authenticationRoute.post("/user/sendotp", sendOtp)
 authenticationRoute.post("/user/verifyotp", verifyOtp)
 authenticationRoute.post("/user/verify", verifyUser)
+authenticationRoute.get("/users/:email", userDetails)
+
+
+
+
+
 
 
 export default authenticationRoute

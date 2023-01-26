@@ -35,7 +35,8 @@ const usersSchema = new mongoose.Schema({
     isSeller: {
         type: Boolean,
         required: true
-    }
+    },
+    cart: Array
 })
 
 
