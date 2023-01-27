@@ -1,12 +1,8 @@
-.cartCon {
-    width: 92%;
-    height: 90vh;
-}
-
 .productsCon,
 .summaryCon {
     background-color: #F0FFFF;
 }
+
 
 .quantity {
     width: 80px;
@@ -20,4 +16,35 @@
 .productCartImage {
     height: 70px;
     width: 70px;
+}
+
+@media screen and (max-width:767px) {
+    .productCartImage {
+        height: 50px;
+        width: 50px;
+    }
+
+    .cartCon {
+        width: 92%;
+    }
+
+    .productsCon {
+        height: 80vh;
+    }
+
+    .summaryConB {
+        height: 20vh;
+    }
+}
+
+
+@media screen and (min-width:767px) {
+    .productsCon {
+        height: 100%;
+    }
+
+    .cartCon {
+        width: 92%;
+        height: 90vh;
+    }
 }
