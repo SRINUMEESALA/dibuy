@@ -18,6 +18,10 @@
     width: 70px;
 }
 
+.addressform {
+    height: 50vh;
+}
+
 @media screen and (max-width:767px) {
     .productCartImage {
         height: 50px;

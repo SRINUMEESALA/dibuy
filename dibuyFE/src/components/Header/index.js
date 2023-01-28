@@ -78,15 +78,17 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(openingSide, false)}
         >
             <List>
-                {[{ displayText: 'Account', icon: <RiAccountCircleFill className="h4 m-0 p-0" /> }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" /> }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" /> }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" /> }].map((obj, index) => (
-                    <ListItem key={obj.displayText} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {obj.icon}
-                            </ListItemIcon>
-                            <ListItemText primary={obj.displayText} />
-                        </ListItemButton>
-                    </ListItem>
+                {[{ displayText: 'Account', icon: <RiAccountCircleFill className="h4 m-0 p-0" />, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/" }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" />, path: "/" }].map((obj, index) => (
+                    <Link to={obj.path} className="link">
+                        <ListItem key={obj.displayText} disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    {obj.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={obj.displayText} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
             <Divider />

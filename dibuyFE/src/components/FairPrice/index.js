@@ -1,6 +1,3 @@
-import Header from "../Header"
-
-const FairPrice = () => <><Header />
-    <h1>Fair Price</h1></>
+const FairPrice = () => <h1>FairPrice</h1>
 
 export default FairPrice

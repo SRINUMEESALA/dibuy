@@ -71,16 +71,16 @@ const sendOtp = async (request, response) => {
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-                user: "dibuyindia@gmail.com", // generated ethereal user
+                user: "srinu.printila@gmail.com", // generated ethereal user    dibuyindia
                 // pass: "ypbxrkdkchrzkxwj", // generated ethereal password
-                pass: "wljeddklerpagoyz", // generated ethereal password
+                pass: "gfikumxxmpieglfi", // generated ethereal password    wljeddklerpagoyz
             },
         });
 
         const htmlCode = `<div><h5>Hello Dear Customer.Your One Time Password is</h5><h1>${generatedOtp}</h1><p>Please donot share the password with anyone.</p><p>Your OTP get expired in next 10 minute.</p><br><br><br><b><i>Thanks&regards:<br>Dibuy<br>RGUKT Srikakulam<br>Andhra Pradesh</i></b><p><b>Happing Shopping-RadheRadhe</b></p><img src='cid:krishna' width='100%'/></div> `;
 
         const options = {
-            from: 'dibuyindia@gmail.com', // sender address
+            from: 'srinu.printila@gmail.com', // sender address
             to: UserEmail, // list of receivers
             subject: "Login Attempt", // Subject line
             text: "Say with me 'RadheRadhe'", // plain text body

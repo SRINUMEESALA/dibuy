@@ -1,22 +1,26 @@
-
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { Global } from '@emotion/react';
+import { styled } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { grey } from '@mui/material/colors';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { v4 as uuidv4 } from "uuid"
 import Header from "../Header"
 import Footer from "../Footer"
 import Cookies from "js-cookie"
 import { AiFillCloseCircle, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import Button from '@mui/material/Button';
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import "./index.css"
 import { useState } from "react";
 import { serverUrl } from "../../sources";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DiBuyContext from "../../context/DiBuyContext";
 import { Link } from "react-router-dom";
-import TextField from '@mui/material/TextField';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
 const apiStatusConstants = {
     fail: "Failed",
@@ -24,51 +28,43 @@ const apiStatusConstants = {
     load: "Loading",
     inital: 'inital'
 }
-const Cart = (props) => {
+
+const drawerBleeding = 56;
+
+const Root = styled('div')(({ theme }) => ({
+    height: '100%',
+    backgroundColor:
+        theme.palette.mode === 'light' ? grey[100] : theme.palette.background.default,
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'light' ? '#fff' : grey[800],
+}));
+
+const Puller = styled(Box)(({ theme }) => ({
+    width: 30,
+    height: 6,
+    backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[900],
+    borderRadius: 3,
+    position: 'absolute',
+    top: 8,
+    left: 'calc(50% - 15px)',
+}));
+
+function cart(props) {
+    const { window } = props;
+    const [openDrawer, setOpenDrawer] = useState(false);
+
+    const toggleDrawer = (newOpen) => () => {
+        setOpenDrawer(newOpen);
+    };
+
+    // This is used only for the example
+    const container = window !== undefined ? () => window().document.body : undefined;
     const [products, setProducts] = useState([{}])
     const [cartValue, setCartValue] = useState(0)
     const [apiStatus, setApiStatus] = useState(apiStatusConstants.inital)
-    const [summary, setSummary] = useState(true)
-    const [finalStep, setFinalStep] = useState(false)
-    const [orderSuccess, setOrderSuccess] = useState(false)
 
-    const emptyCartAfterOrderPlaced = async () => {
-        try {
-            const url = `${serverUrl}/user/cart/order`
-            const options = {
-                method: "POST",
-                body: JSON.stringify({ "ordered": true, "cartValue": cartValue }),
-                headers: {
-                    Authorization: `Bearer ${Cookies.get("jwtToken")}`,
-                    "content-type": "application/json"
-                }
-            }
-            const response = await fetch(url, options)
-            const result = await response.json()
-            console.log(result)
-        } catch (err) {
-            console.log("Could raise HTTP in emptyCartAfterOrderPlaced")
-        }
-
-    }
-
-    if (orderSuccess) {
-        setTimeout(() => {
-            emptyCartAfterOrderPlaced()
-            getCartProducts()
-            setOrderSuccess(false)
-            return (
-                <DiBuyContext.Consumer>
-                    {value => {
-                        const { setCartCount } = value
-                        setCartCount(0)
-                        return <></>
-                    }}
-                </DiBuyContext.Consumer>
-            )
-
-        }, 5000)
-    }
 
     const getCartProducts = async () => {
         try {
@@ -218,7 +214,7 @@ const Cart = (props) => {
                                             </div>
                                         </div>))}
                                 </div>
-                                {summary && <div className="summaryConB col-md-3 col-12 ">
+                                <div className="summaryConB col-md-3 col-12 ">
                                     <div className="summaryCon">
                                         <div className="card text-center">
                                             <div className="card-header">
@@ -245,92 +241,9 @@ const Cart = (props) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className=""><Button color="success" variant="contained" className="w-100" onClick={() => {
-                                            setSummary(false)
-                                            setFinalStep(true)
-                                        }}>CHECKOUT</Button></div>
+                                        <div className=""><Button color="success" variant="contained" className="w-100" onClick={() => toggleDrawer(true)}>CHECKOUT</Button></div>
                                     </div>
-                                </div>}
-                                {finalStep && <div className=" col-md-3 col-12 ">
-                                    <div className="">
-                                        <div className="card text-center">
-                                            <div className="card-header">
-                                                Order Total:<small className="ml-4">Rs.</small><span className="h4">{cartValue}</span>
-                                            </div>
-                                            <div className="card-body addressform overflow-auto">
-                                                <h1 className="h4 text-center"> Add Address</h1>
-                                                <form className="d-flex flex-column p-3 bg-light rounded  h-100">
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="Full Name"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="mobile"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="Village"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="HNo"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="City"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="Pincode"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2"
-                                                    />
-                                                    <TextField
-                                                        id="standard-password-input"
-                                                        label="State"
-                                                        type="text"
-                                                        variant="standard"
-                                                        className="m-2 mb-3"
-                                                    />
-                                                </form>
-                                            </div>
-                                            <div className="card-footer text-muted">
-                                                <Button variant="contained" type="button" className="w-100" onClick={() => {
-                                                    setOrderSuccess(true)
-                                                    setFinalStep(false)
-                                                }}>Place Order</Button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>}
-                                {
-                                    orderSuccess && <div className="summaryConB col-md-3 col-12 ">
-                                        <div className="summaryCon text-center">
-                                            <h1 className="text-success h3">Hurray!</h1>
-                                            <div className="">
-                                                <img src="https://img.freepik.com/free-vector/successful-purchase-concept-illustration_114360-1003.jpg?w=740&t=st=1674810639~exp=1674811239~hmac=ed5176f298be493c2664f80fab02787455f849c6b9e8b71c67a00f73baffbdda" className="w-100" alt="sucessImage" />
-                                            </div>
-                                            <p className="text-success h6">Order successfully placed!</p>
-                                        </div>
-                                    </div>
-                                }
+                                </div>
                             </div>
                         </div>
                         <Footer />
@@ -371,13 +284,63 @@ const Cart = (props) => {
                 return null
         }
     }
-
     return (
-        <>
+        <Root>
+            <CssBaseline />
+            <Global
+                styles={{
+                    '.MuiDrawer-root > .MuiPaper-root': {
+                        height: `calc(50% - ${drawerBleeding}px)`,
+                        overflow: 'visible',
+                    },
+                }}
+            />
+            {/* main code starts */}
             {renderUi()}
-        </>
-
-    )
+            {/* {main code ends} */}
+            <SwipeableDrawer
+                container={container}
+                anchor="bottom"
+                open={openDrawer}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+                swipeAreaWidth={drawerBleeding}
+                disableSwipeToOpen={false}
+                ModalProps={{
+                    keepMounted: true,
+                }}
+            >
+                <StyledBox
+                    sx={{
+                        position: 'absolute',
+                        top: -drawerBleeding,
+                        borderTopLeftRadius: 8,
+                        borderTopRightRadius: 8,
+                        visibility: 'visible',
+                        right: 0,
+                        left: 0,
+                    }}
+                >
+                    <Puller />
+                    <Typography sx={{ p: 2, color: 'text.secondary' }}>51 results</Typography>
+                </StyledBox>
+                <StyledBox
+                    sx={{
+                        px: 2,
+                        pb: 2,
+                        height: '100%',
+                        overflow: 'auto',
+                    }}
+                >
+                    <img src="https://img.freepik.com/free-vector/elegant-janmashtami-festival-banner-with-text-space_1017-26550.jpg?w=996&t=st=1672478068~exp=1672478668~hmac=039916f0dbd305bfefab86aa231c17dfdbeaf8857ec905ee234d8e927ec2acda" alt="radheradhe" className='100%' />
+                </StyledBox>
+            </SwipeableDrawer>
+        </Root>
+    );
 }
 
-export default Cart
+cart.propTypes = {
+    window: PropTypes.func,
+};
+
+export default cart;

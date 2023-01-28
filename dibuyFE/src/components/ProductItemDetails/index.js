@@ -1,7 +1,6 @@
 import "./index.css"
 /* eslint-disable react/no-unknown-property */
 import { Component } from 'react'
-import { BsPlusSquare, BsDashSquare } from 'react-icons/bs'
 import Cookies from "js-cookie"
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'

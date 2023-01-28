@@ -36,7 +36,8 @@ const usersSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    cart: Array
+    cart: Array,
+    orders: Array
 })
 
 
