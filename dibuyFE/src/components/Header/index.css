@@ -42,3 +42,9 @@
     all: unset;
     cursor: pointer;
 }
+
+.logoutCon {
+    height: 40vh;
+    width: 60vh;
+    padding: 16px;
+}

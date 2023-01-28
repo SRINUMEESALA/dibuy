@@ -16,6 +16,7 @@ import { useEffect } from 'react'
 import { serverUrl } from "./sources"
 import Cookies from "js-cookie"
 import Orders from './components/Orders'
+import ChatUs from './components/ChatUs'
 
 document.title = "DiBuy";
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
           <ProtectedRoute exact path="/cart" component={Cart} />
           <ProtectedRoute exact path="/product/:id" component={ProductItemDetails} />
           <ProtectedRoute exact path="/orders" component={Orders} />
+          <ProtectedRoute exact path="/chatus" component={ChatUs} />
           <Route exact path="/temp" component={Temp} />
           <Route component={NotFound} />
         </Switch>

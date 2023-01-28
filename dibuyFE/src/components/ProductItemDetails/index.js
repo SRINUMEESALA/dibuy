@@ -4,6 +4,7 @@ import { Component } from 'react'
 import Cookies from "js-cookie"
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import './index.css'
 import Header from '../Header'
 import { serverUrl } from "../../sources";
@@ -18,6 +19,19 @@ class ProductItemDetails extends Component {
         productDet: {},
         apiStatus: 'initial',
         count: 1
+    }
+
+    setQuantity = (arg) => {
+        const { count } = this.state
+        if (arg === "+") {
+            this.setState({ count: count + 1 })
+        } else {
+            if (count === 1) {
+                this.setState({ count: 1 })
+            } else {
+                this.setState({ count: count - 1 })
+            }
+        }
     }
 
     addProductToCart = async () => {
@@ -154,6 +168,15 @@ class ProductItemDetails extends Component {
                                 <span className="font-weight-bold">About: </span>
                                 {description}
                             </p>
+                            <li className="d-none d-md-block col-md-2">
+                                <div className="rounded-pill pill d-flex quantity justify-content-around align-items-center">
+                                    <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("-")}><AiOutlineMinus className="p-0 m-0" /></button>
+
+                                    <p className="p-0 m-0 text-dark h6">{count}</p>
+                                    <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("+")}><AiOutlinePlus className="p-0 m-0" /></button>
+
+                                </div>
+                            </li>
                             <button
                                 type="button"
                                 className="btn btn-primary align-self-start"

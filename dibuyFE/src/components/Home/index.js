@@ -56,7 +56,7 @@ const Home = () => {
                     allowDynamicUpdate
 
                 >
-                    {chronoSlides.map(obj => (<div key={uuidv4()}>
+                    {chronoSlides.map(obj => (<div key={uuidv4()} className="chronoCardOfSlider" >
                         <img
                             src={obj.imageUrl}
                             alt="image1"

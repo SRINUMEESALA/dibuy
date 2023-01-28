@@ -23,6 +23,9 @@ import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Dialog from '@mui/material/Dialog';
+import Loader from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -38,6 +41,7 @@ const navItems = [{ item: "Products", id: 1, path: "/products" }, { item: "FairP
 const openingSide = "right";
 const Header = (props) => {
     const [state, setState] = useState({ "right": false });
+    const [open, setOpen] = useState(false);
     const sliderSize = screenSize < 768 ? 170 : 250;
 
     const logout = () => {
@@ -45,6 +49,18 @@ const Header = (props) => {
         const { history } = props
         history.replace("/user/login")
     }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+        setTimeout(() => {
+            logout()
+            setOpen(false)
+        }, 4000)
+    };
+
+    // const handleClose = () => {
+    //     setOpen(false);
+    // };
 
     const toggleDrawer = (openingSide, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -78,7 +94,7 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(openingSide, false)}
         >
             <List>
-                {[{ displayText: 'Account', icon: <RiAccountCircleFill className="h4 m-0 p-0" />, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/" }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" />, path: "/" }].map((obj, index) => (
+                {[{ displayText: 'Account', icon: <RiAccountCircleFill className="h4 m-0 p-0" />, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" />, path: "/" }].map((obj, index) => (
                     <Link to={obj.path} className="link">
                         <ListItem key={obj.displayText} disablePadding>
                             <ListItemButton>
@@ -95,7 +111,7 @@ const Header = (props) => {
             <List>
                 {[{ displayText: 'Logout', icon: <FiLogOut className="h5 m-0" />, }].map((obj, index) => (
                     <ListItem key={obj.displayText} disablePadding>
-                        <ListItemButton onClick={logout}>
+                        <ListItemButton onClick={handleClickOpen}>
                             <ListItemIcon>
                                 {obj.icon}
                             </ListItemIcon>
@@ -149,6 +165,17 @@ const Header = (props) => {
                             >
                                 {slide(openingSide, sliderSize)}
                             </Drawer>
+                            <Dialog
+                                open={open}
+                            >
+                                <div className="logoutCon d-flex flex-column justify-content-between">
+                                    <h1 className="text-danger h3 text-center">See you soon!</h1>
+                                    <div className="text-center">
+                                        <Loader type="TailSpin" color="#FF5454" height={80} width={80} />
+                                    </div>
+                                    <small className="text-secondary text-center w-100">Logging you out...</small>
+                                </div>
+                            </Dialog>
                         </>
 
                     )

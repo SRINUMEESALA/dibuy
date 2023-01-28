@@ -25,7 +25,7 @@ const addToCart = async (request, response) => {
             if (isExist.length > 0) {
                 const newCart = cart.map(obj => {
                     if (obj.productId === productId) {
-                        return { ...obj, quantity: obj.quantity + quantity }
+                        return { ...obj, quantity: obj.quantity }
                     } else {
                         return obj
                     }

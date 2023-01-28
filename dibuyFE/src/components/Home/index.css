@@ -6,8 +6,11 @@
 
 .chrono-container {
     width: 60vw;
-    height: 90vh;
+    /* width: 60vw; */
+    /* height: 90vh; */
 }
+
+/* if you want to make the chrono fixed for limited dimensions then comment 60vw and uncomment else. */
 
 .image {
     width: 100px;

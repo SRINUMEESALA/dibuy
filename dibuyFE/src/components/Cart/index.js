@@ -203,9 +203,7 @@ const Cart = (props) => {
                                                 <li className="col-2">{obj.price}</li>
                                                 <li className="d-none d-md-block col-md-2">
                                                     <div className="rounded-pill pill d-flex quantity justify-content-around align-items-center">
-                                                        <button type="button" className="btn m-0 p-0"><AiOutlinePlus className="p-0 m-0" /></button>
                                                         <p className="p-0 m-0 text-dark h6">{obj.cartQuantity}</p>
-                                                        <button type="button" className="btn m-0 p-0"><AiOutlineMinus className="p-0 m-0" /></button>
                                                     </div>
                                                 </li>
                                                 <li className="col-md-1 d-none d-md-block">{obj.price * obj.cartQuantity}</li>
