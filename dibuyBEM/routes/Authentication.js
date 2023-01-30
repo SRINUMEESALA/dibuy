@@ -3,6 +3,8 @@ import User from "../models/users.js"
 import nodemailer from "nodemailer"
 import { v4 as uuidv4 } from "uuid"
 import jwt from "jsonwebtoken"
+import authorizeUser from "../middlewares/authorizeUser.js"
+
 const authenticationRoute = new express.Router()
 
 let otpsList = []
@@ -146,6 +148,11 @@ const userDetails = async (request, response) => {
     }
 }
 
+const sendEmail = async (request, response) => {
+    response.status(200)
+    response.send({ email: request.currentUser })
+}
+
 
 
 // Routes
@@ -155,7 +162,10 @@ authenticationRoute.post("/user/login", login);
 authenticationRoute.post("/user/sendotp", sendOtp)
 authenticationRoute.post("/user/verifyotp", verifyOtp)
 authenticationRoute.post("/user/verify", verifyUser)
+authenticationRoute.get("/user/getemail", authorizeUser, sendEmail)
+
 authenticationRoute.get("/users/:email", userDetails)
+
 
 
 

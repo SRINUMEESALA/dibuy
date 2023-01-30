@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import "./App.css"
 import Cart from './components/Cart'
-import FairPrice from './components/FairPrice'
+import SellerCorner from './components/SellerCorner'
 import Home from "./components/Home"
 import NotFound from './components/NotFound'
 import ProductItemDetails from './components/ProductItemDetails'
@@ -17,6 +17,7 @@ import { serverUrl } from "./sources"
 import Cookies from "js-cookie"
 import Orders from './components/Orders'
 import ChatUs from './components/ChatUs'
+
 
 document.title = "DiBuy";
 const App = () => {
@@ -48,7 +49,7 @@ const App = () => {
           <Route exact path="/register" component={Register} />
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/products" component={Products} />
-          <ProtectedRoute exact path="/fairprice" component={FairPrice} />
+          <ProtectedRoute exact path="/sellercorner" component={SellerCorner} />
           <ProtectedRoute exact path="/cart" component={Cart} />
           <ProtectedRoute exact path="/product/:id" component={ProductItemDetails} />
           <ProtectedRoute exact path="/orders" component={Orders} />
@@ -64,3 +65,7 @@ const App = () => {
 
 
 export default App
+
+
+
+

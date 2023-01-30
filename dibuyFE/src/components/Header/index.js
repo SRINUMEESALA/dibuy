@@ -2,6 +2,7 @@
 import { Link, withRouter } from "react-router-dom"
 import { useState } from 'react';
 import Cookies from "js-cookie";
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -17,6 +18,7 @@ import { RiAccountCircleFill } from "react-icons/ri";
 import { GrHistory } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsChatRightDotsFill } from "react-icons/bs";
+import { deepOrange } from '@mui/material/colors';
 import "./index.css"
 import DiBuyContext from "../../context/DiBuyContext";
 import Badge from '@mui/material/Badge';
@@ -26,6 +28,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Dialog from '@mui/material/Dialog';
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { useEffect } from "react";
+import { serverUrl } from "../../sources";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -36,13 +40,41 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
+
+
+
 const screenSize = window.innerWidth
-const navItems = [{ item: "Products", id: 1, path: "/products" }, { item: "FairPrice", id: 2, path: "/fairprice" }, { item: "Cart", id: 3, path: "/cart" }]
+const navItems = [{ item: "Products", id: 1, path: "/products" }, { item: "Seller Corner", id: 2, path: "/sellercorner" }, { item: "Cart", id: 3, path: "/cart" }]
 const openingSide = "right";
 const Header = (props) => {
     const [state, setState] = useState({ "right": false });
     const [open, setOpen] = useState(false);
+    const [currentUser, setCurrentUser] = useState("RadheKrishna")
     const sliderSize = screenSize < 768 ? 170 : 250;
+
+    console.log(currentUser)
+
+    const getUserEmail = async () => {
+        try {
+            const url = `${serverUrl}/user/getemail`
+            const options = {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("jwtToken")}`,
+                    "content-type": "application/json"
+                }
+            }
+            const response = await fetch(url, options)
+            const result = await response.json()
+            setCurrentUser(result.email)
+        } catch (err) {
+            console.log("Could not get email of the user")
+        }
+    }
+
+    useEffect(() => {
+        getUserEmail()
+    }, [])
 
     const logout = () => {
         Cookies.remove("jwtToken")
@@ -55,7 +87,7 @@ const Header = (props) => {
         setTimeout(() => {
             logout()
             setOpen(false)
-        }, 4000)
+        }, 3000)
     };
 
     // const handleClose = () => {
@@ -94,9 +126,9 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(openingSide, false)}
         >
             <List>
-                {[{ displayText: 'Account', icon: <RiAccountCircleFill className="h4 m-0 p-0" />, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" />, path: "/" }].map((obj, index) => (
-                    <Link to={obj.path} className="link">
-                        <ListItem key={obj.displayText} disablePadding>
+                {[{ displayText: 'Account', icon: <Avatar alt="RadheKrishna" sx={{ width: 24, height: 24, margin: 0, padding: 0, bgcolor: deepOrange[500] }} >{currentUser[0]}</Avatar>, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "Seller Corner", icon: <MdSell className="h5 m-0" />, path: "/" }].map((obj, index) => (
+                    <Link to={obj.path} className="link" key={obj.displayText}>
+                        <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
                                     {obj.icon}
@@ -135,7 +167,7 @@ const Header = (props) => {
                                         <h1 className="pt-2 pb-2"><Link to="/" className="navLink" onClick={() => setCurrentRoute("")}><span className="websiteNativeColor">Di</span>Buy</Link></h1>
                                         <div className="d-flex">
                                             <ul className="list-unstyled d-flex m-0">
-                                                {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? "mr-3 websiteNativeBgColor p-2 d-flex align-items-center navItem justify-content-center" : "mr-3 d-flex align-items-center navItem justify-content-center"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span>{eachItem.item === "Cart" && renderCart()}</Link></li>)}
+                                                {navItems.map(eachItem => <li className={currentRoute === eachItem.path ? "mr-3 websiteNativeBgColor p-2 d-flex align-items-center navItem justify-content-center" : "mr-3 d-flex align-items-center navItem justify-content-center"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.path)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span>{eachItem.item === "Cart" && renderCart()}</Link></li>)}
                                             </ul>
                                             <button className="btn text-white align-self-center" type="button" onClick={toggleDrawer(openingSide, true)}>More <FcNext className="text-light m-0 font-weight-bold" /></button>
                                         </div>
@@ -153,7 +185,7 @@ const Header = (props) => {
                                     </div>
                                     <div className="collapse navbar-collapse" id="navbarNav">
                                         <ul className="navbar-nav text-center">
-                                            {navItems.map(eachItem => <li className={currentRoute === eachItem.id ? "mr-3 websiteNativeBgColor p-2" : "mr-3"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.id)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span></Link></li>)}
+                                            {navItems.map(eachItem => <li className={currentRoute === eachItem.path ? "mr-3 websiteNativeBgColor p-2" : "mr-3"} key={eachItem.id} onClick={() => setCurrentRoute(eachItem.path)}><Link to={eachItem.path} className="navLink"><span>{eachItem.item}</span></Link></li>)}
                                         </ul>
                                     </div>
                                 </nav>
