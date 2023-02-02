@@ -5,17 +5,6 @@ import authorizeUser from "../middlewares/authorizeUser.js"
 
 const productsRoute = new express.Router()
 
-// const products = async (request, response) => {
-//     console.log("Get products accessed")
-//     try {
-//         const productsList = await Product.find()
-//         response.status(200)
-//         response.send({ productsList })
-//     } catch (err) {
-//         response.status(500)
-//         response.send("No products Found")
-//     }
-// }
 
 const product = async (request, response) => {
     console.log("Get Product is accessed")
@@ -65,7 +54,7 @@ const products = async (request, response) => {
 
 const addProduct = async (request, response) => {
     try {
-        // console.log(request.body)
+        console.log(request.body)
         const prod = await Product(request.body).save()
         const prodId = prod._id.valueOf()
         // console.log(prodId)

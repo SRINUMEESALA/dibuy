@@ -14,7 +14,7 @@ const SellerAddProduct = () => {
     const [quality, setQuality] = useState("")
     const [price, setPrice] = useState()
     const [description, setDescription] = useState("")
-    const [categrory, setCategory] = useState("")
+    const [category, setCategory] = useState("")
     const [imageUrl, setImageUrl] = useState("")
 
 
@@ -31,7 +31,7 @@ const SellerAddProduct = () => {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({
-                    imageUrl, categrory, quality, quantity, description, title, price
+                    imageUrl, category, quality, quantity, description, title, price
                 })
             }
             const response = await fetch(url, options)
@@ -92,7 +92,7 @@ const SellerAddProduct = () => {
                     <Button
                         variant="contained"
                         color="secondary"
-                        sx={{ pl: 3, pr: 3, mt: 5 }}
+                        sx={{ pl: 3, pr: 3, mt: 5, mb: 5 }}
                         onClick={() => setSubmited(!submited)}
                     >
                         {submited ? "Add More" : "Add"}

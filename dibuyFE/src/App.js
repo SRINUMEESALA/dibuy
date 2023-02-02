@@ -17,6 +17,7 @@ import Temp from './components/Temp'
 import UserLogin from "./components/UserLogin"
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Orders from './components/Orders'
+import SellerDashboard from './components/SellerDashboard'
 import ChatUs from './components/ChatUs'
 
 
@@ -56,6 +57,7 @@ const App = () => {
           <ProtectedRoute exact path="/chatus" component={ChatUs} />
           <ProtectedRoute exact path="/seller/register" component={SellerRegistration} />
           <ProtectedRoute exact path="/sellercorner" component={SellerCorner} />
+          <ProtectedRoute exact path="/seller/dashboard" component={SellerDashboard} />
           <Route exact path="/temp" component={Temp} />
           <Route component={NotFound} />
         </Switch>

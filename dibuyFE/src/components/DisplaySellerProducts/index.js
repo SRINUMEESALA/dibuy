@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 // import Header from "../Header"
 // import Footer from "../Footer"
 import { v4 as uuidv4 } from "uuid"
-// import { serverUrl } from "../../sources";
-// import Cookies from "js-cookie"
+import { serverUrl } from "../../sources";
+import Cookies from "js-cookie"
 import "./index.css"
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
@@ -43,22 +43,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }))
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein }
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-]
+
+
 
 const DisplaySellerProducts = () => {
     const [sellerProducts, setSellerProducts] = useState([{}])
@@ -68,13 +55,11 @@ const DisplaySellerProducts = () => {
     const getProducs = async () => {
         setGetProductsApiStatus(apiStatusConstants.load)
         try {
-            // const url = `${serverUrl}/user/cart/orders/history`
-            const url = `http://localhost:4000/seller/products`
+            const url = `${serverUrl}/seller/products`
             const options = {
                 method: "GET",
                 headers: {
-                    // Authorization: `Bearer ${Cookies.get("jwtToken")}`
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyRW1haWwiOiJzcmludXNyaTc2NTg1QGdtYWlsLmNvbSIsImlhdCI6MTY3NDcwODgzMX0.QNkp8Y4jhoKIezwAm8Nc4RYtHYeTX7AbgifIRLfCvpY`
+                    Authorization: `Bearer ${Cookies.get("jwtToken")}`
                 }
             }
             const response = await fetch(url, options)

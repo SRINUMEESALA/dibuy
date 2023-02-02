@@ -48,12 +48,13 @@ const settings = {
 const BannerSection = () => {
     const slider = useRef(null)
     const bannersList = [{ imageUrl: "https://img.freepik.com/premium-vector/vector-illustration-durga-puja-sale-banner_181203-10184.jpg?w=996", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/banner-concept-social-media-marketing-with-large-megaphone-screen_129685-325.jpg?w=826", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/happy-farmers-day-indian-farmer-working-agriculture-field_628838-1988.jpg?w=900", id: uuidv4() }]
+    // const bannersList = [{ imageUrl: "https://www.freepik.com/premium-vector/agricultural-farming-services-landscape-banner-design-template_28557233.htm#query=farmer%20awareness%20banners&position=28&from_view=search&track=ais", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/farm-farmer-typographic-header-concept-farmers-working-field-watering-plants-feeding-animals-summer-countryside-view-agriculture-concept-living-village_277904-6044.jpg?w=900", id: uuidv4() }, { imageUrl: "https://www.freepik.com/premium-vector/farmer-cartoon_2468997.htm#query=farmer%20awareness%20banners&position=6&from_view=search&track=ais", id: uuidv4() }]
     return (
         <div className="videosSliderParentCon mt-2">
             <Slider {...settings} ref={slider}>
                 {bannersList.map(obj => (
                     <div className="shadow mr-3" key={uuidv4()}>
-                        <img src={obj.imageUrl} alt="" className="w-100 sliderimage" />
+                        <img src={obj.imageUrl} alt="Radhe" className="w-100 sliderimage" />
                     </div>
                 ))}
             </Slider>
