@@ -19,6 +19,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Orders from './components/Orders'
 import SellerDashboard from './components/SellerDashboard'
 import ChatUs from './components/ChatUs'
+import UserAccount from './components/UserAccount'
 
 
 document.title = "DiBuy";
@@ -58,6 +59,7 @@ const App = () => {
           <ProtectedRoute exact path="/seller/register" component={SellerRegistration} />
           <ProtectedRoute exact path="/sellercorner" component={SellerCorner} />
           <ProtectedRoute exact path="/seller/dashboard" component={SellerDashboard} />
+          <ProtectedRoute exact path="/user/account" component={UserAccount} />
           <Route exact path="/temp" component={Temp} />
           <Route component={NotFound} />
         </Switch>

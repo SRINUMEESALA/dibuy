@@ -126,7 +126,7 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(openingSide, false)}
         >
             <List>
-                {[{ displayText: 'Account', icon: <Avatar alt="RadheKrishna" sx={{ width: 24, height: 24, margin: 0, padding: 0, bgcolor: deepOrange[500] }} >{currentUser[0]}</Avatar>, path: "/" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "DashBoard", icon: <MdSell className="h5 m-0" />, path: "/seller/dashboard" }].map((obj, index) => (
+                {[{ displayText: 'Account', icon: <Avatar alt="RadheKrishna" sx={{ width: 24, height: 24, margin: 0, padding: 0, bgcolor: deepOrange[500] }} >{currentUser[0]}</Avatar>, path: "/user/account" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "DashBoard", icon: <MdSell className="h5 m-0" />, path: "/seller/dashboard" }].map((obj, index) => (
                     <Link to={obj.path} className="link" key={obj.displayText}>
                         <ListItem disablePadding>
                             <ListItemButton>

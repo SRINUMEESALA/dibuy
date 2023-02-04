@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 import Header from "../Header"
 import Footer from "../Footer"
 import Cookies from "js-cookie"
-import { AiFillCloseCircle, AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
 import Button from '@mui/material/Button';
 import Loader from 'react-loader-spinner'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
