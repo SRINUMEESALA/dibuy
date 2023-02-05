@@ -117,8 +117,8 @@ const Products = () => {
     const renderSortBySearch = () => (<>
         <h1 className="h6 mb-0">Search</h1>
         <div className="d-flex mb-3">
-            <TextField id="standard-basic" label="Latest..." variant="standard" onChange={(event) => setSearchInput(event.target.value)} value={searchInput} />
-            <div className="colorSearchIconCon mb-0 ml-1">
+            <TextField id="standard-basic" label="Latest..." variant="standard" onChange={(event) => setSearchInput(event.target.value)} value={searchInput} type="search" />
+            <div className="colorSearchIconCon mb-0 ml-1 mt-3">
                 <button type="button" className="btn p-0 m-0" onClick={getProducts}><HiOutlineSearch className="h-100 text-secondary h5 align-self-center mb-0 " /></button>
             </div>
         </div>
@@ -131,6 +131,17 @@ const Products = () => {
         setSearchInput("")
         getProducts()
     }
+
+    const renderEmptyProducts = () => (
+        <div className="d-flex align-items-center justify-content-center emptyConView">
+            <div className="">
+                <div className="text-center mb-2">
+                    <img className="emptyProductsView w-50" alt="" src="https://img.freepik.com/premium-vector/order-cancelled-abstract-concept-vector-illustration_107173-20487.jpg?w=740" />
+                </div>
+                <h1 className="h3 text-secondary text-center">Sorry! No prouducts are available with your search.</h1>
+            </div>
+        </div>
+    )
 
     const renderSuccessView = () => (
         <div className="productsCon align-self-center d-flex justify-content-between">
@@ -145,7 +156,7 @@ const Products = () => {
                 {renderSortByRating()}
                 <button type="button" className="btn btn-danger btn-small float-right mt-3 p-1 pr-2 pl-2" onClick={allClear}>Clear All</button>
             </div>
-            <ProductsList productsList={products} />
+            {products.length === 0 ? renderEmptyProducts() : <ProductsList productsList={products} />}
         </div>
     )
 

@@ -24,6 +24,10 @@ import Header from "../Header"
 import Footer from "../Footer"
 import { serverUrl } from "../../sources";
 import Cookies from "js-cookie";
+import Snackbar from '@mui/material/Snackbar';
+import Slide from '@mui/material/Slide';
+import MuiAlert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
 
 
 
@@ -41,6 +45,7 @@ const BootstrapTooltip = styled(({ className, ...props }) => (
 const handleMouseDownPassword = (event) => {
     event.preventDefault();
 };
+
 
 const apiStatusConstants = {
     fail: "Failed",
@@ -62,10 +67,50 @@ const UserAccount = () => {
     const [user, setUser] = useState({})
     const [accountCardApiStatus, setAccountCardApiStatus] = useState(apiStatusConstants.initial)
     const [profilePic, setProfilePic] = useState("")
+    const [snackBarOpen, setSnackBarOpen] = useState(false)
 
     const InputImageEleRef = React.useRef(null)
 
-    // console.log(user.profilePic,profilePic)
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackBarOpen(false);
+    };
+
+    const action = (
+        <>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleCloseSnack}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </>
+    );
+
+    const snackBar = () => (
+
+        <Snackbar
+            open={snackBarOpen}
+            autoHideDuration={3000}
+            onClose={handleCloseSnack}
+            action={action}
+            anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+            TransitionComponent={Slide}
+        >
+            <Alert severity="success" sx={{ width: "30vw" }} className="text-center">Changes Saved Successfully.</Alert>
+        </Snackbar>
+    )
+
+
 
     const onClickChangePasswordAndProfilePic = async (type) => {
         try {
@@ -87,6 +132,7 @@ const UserAccount = () => {
                 if (response.ok) {
                     setSuccess(true)
                     setError(false)
+                    setSnackBarOpen(true)
                     setTimeout(() => {
                         setResetPassword(false)
                         setSuccess(false)
@@ -366,6 +412,7 @@ const UserAccount = () => {
                     </div>
                 </div>
             </div>
+            {snackBar()}
         </div>
     )
 

@@ -68,7 +68,7 @@ const Home = () => {
                     </div>))}
                 </Chrono>
             </div>
-            <Button color="success" variant="contained">Become a Seller on Dibuy</Button>
+            <Button color="success" variant="contained"><Link to="/seller/register">Become a Seller on Dibuy</Link></Button>
         </div>
     )
 

@@ -48,74 +48,74 @@ const salesData = [{ Views: 23, Sales: 15, date: "22nd Jan" }, { Views: 53, Sale
 const dataEarnings = [
     {
         name: 'January',
-        uv: 4000,
-        pv: 2400,
+        2021: 4000,
+        2022: 2400,
         amt: 2400,
     },
     {
         name: 'February',
-        uv: 3000,
-        pv: 1398,
+        2021: 3000,
+        2022: 1398,
         amt: 2210,
     },
     {
         name: 'March',
-        uv: 2000,
-        pv: 5800,
+        2021: 2000,
+        2022: 5800,
         amt: 2290,
     },
     {
         name: 'April',
-        uv: 2780,
-        pv: 3908,
+        2021: 2780,
+        2022: 3908,
         amt: 2000,
     },
     {
         name: 'May',
-        uv: 1890,
-        pv: 4800,
+        2021: 1890,
+        2022: 4800,
         amt: 2181,
     },
     {
         name: 'June',
-        uv: 2390,
-        pv: 3800,
+        2021: 2390,
+        2022: 3800,
         amt: 2500,
     },
     {
         name: 'July',
-        uv: 3490,
-        pv: 4300,
+        2021: 3490,
+        2022: 4300,
         amt: 2100,
     },
     {
         name: 'Auguest',
-        uv: 3490,
-        pv: 9000,
+        2021: 3490,
+        2022: 9000,
         amt: 2100,
     },
     {
         name: 'September',
-        uv: 6490,
-        pv: 8500,
+        2021: 6490,
+        2022: 8500,
         amt: 2100,
     },
     {
         name: 'October',
-        uv: 3390,
-        pv: 6500,
+        2021: 3390,
+        2022: 6500,
         amt: 2100,
     },
     {
         name: 'November',
-        uv: 4590,
-        pv: 7700,
+        2021: 4590,
+        2022: 7700,
         amt: 2100,
     },
     {
         name: "December",
-        uv: 7890,
-        pv: 9450,
+        2021: 7890,
+        2022: 9450,
         amt: 2100,
     },
 ];
@@ -268,8 +268,8 @@ const SellerDashboard = (props) => {
                     <XAxis dataKey="name" interval="preserveEnd" />
                     <YAxis interval="preserveEnd" />
                     <Legend />
-                    <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+                    <Line type="monotone" dataKey="2021" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="2022" stroke="#82ca9d" />
                 </LineChart>
             </ResponsiveContainer>
             <div className='mt-5 text-dark'>

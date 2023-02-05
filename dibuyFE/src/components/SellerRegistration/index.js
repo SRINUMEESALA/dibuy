@@ -18,6 +18,12 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { serverUrl } from "../../sources";
 import "./index.css"
 
+const apiStatusConstants = {
+    fail: "Failed",
+    success: "Successful",
+    load: "Loading",
+    inital: 'inital'
+}
 const steps = ['Terms And Conditions', 'Create an Account', 'Finish & Proceed!'];
 
 export default function SellerRegistration(props) {
@@ -29,6 +35,7 @@ export default function SellerRegistration(props) {
     const [accountHolderName, setAccountHolderName] = useState("")
     const [IFSC, setIFSC] = useState("")
     const [isFormFilled, setIsFormFilled] = useState(false)
+    const [isSellerExists, setIsSellerExists] = useState(apiStatusConstants.inital)
 
     const registerSeller = async () => {
         const url = `${serverUrl}/seller/register`
@@ -47,7 +54,7 @@ export default function SellerRegistration(props) {
         try {
             const response = await fetch(url, options)
             const result = await response.json()
-            if (response.ok) {
+            if (response.status === 201) {
                 console.log(result)
                 const { history } = props
                 history.replace("/sellerCorner")
@@ -59,6 +66,42 @@ export default function SellerRegistration(props) {
             console.log("error occured")
         }
     }
+
+    const verifySeller = async () => {
+        setIsSellerExists(apiStatusConstants.load)
+        try {
+            const url = `${serverUrl}/user/getemail`
+            const options = {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${Cookies.get("jwtToken")}`,
+                    "content-type": "application/json"
+                }
+            }
+            const response = await fetch(url, options)
+            const result = await response.json()
+            const url2 = `${serverUrl}/users/${result.email}`
+            const response2 = await fetch(url2)
+            const result2 = await response2.json()
+            if (result2.user.isSeller) {
+                setIsSellerExists(apiStatusConstants.success)
+                const { history } = props
+                history.replace("/sellercorner")
+            } else {
+                setIsSellerExists(apiStatusConstants.fail)
+
+            }
+
+        } catch (err) {
+            console.log("Could not get email of the user")
+            setIsSellerExists(apiStatusConstants.fail)
+        }
+
+    }
+
+    React.useEffect(() => {
+        verifySeller()
+    }, [])
 
     if (isFormFilled) {
         registerSeller()
@@ -233,15 +276,19 @@ export default function SellerRegistration(props) {
         </div>
     )
 
+
+
     return (
         <>
-            <Header />
-
-            <div className='d-flex vh-100 justify-content-start flex-column align-items-center registerSellerParentCon text-secondary'>
-                <h1 className='h3 text-dark text-center mt-3 mb-3'>Seller Registration</h1>
-                {isFormFilled ? renderLoadingView() : renderStepper()}
-            </div>
-            <Footer />
+            {isSellerExists === apiStatusConstants.fail ? (
+                <>
+                    <Header />
+                    <div className='d-flex vh-100 justify-content-start flex-column align-items-center registerSellerParentCon text-secondary'>
+                        <h1 className='h3 text-dark text-center mt-3 mb-3'>Seller Registration</h1>
+                        {isFormFilled ? renderLoadingView() : renderStepper()}
+                    </div>
+                    <Footer />
+                </>) : renderLoadingView()}
         </>
     );
 }

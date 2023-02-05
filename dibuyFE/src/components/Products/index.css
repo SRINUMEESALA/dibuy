@@ -56,6 +56,10 @@
     height: 60vh;
 }
 
+.emptyConView {
+    flex-grow: 1;
+}
+
 @media screen and (min-width:768px) {
     .productCardsCon {
         width: 82%;
