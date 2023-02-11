@@ -8,6 +8,12 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import './index.css'
 import Header from '../Header'
 import { serverUrl } from "../../sources";
+import { v4 as uuidv4 } from "uuid"
+import TechCard from "../TechCard"
+
+
+
+const borderColors = ["#1976d2", "#ad1457", "#f44336", "#00695c", "#78909c", "#673ab7", "#004d40", "#ffea00"]
 
 const apiStatusConstants = {
     fail: "Failed",
@@ -18,7 +24,8 @@ class ProductItemDetails extends Component {
     state = {
         productDet: {},
         apiStatus: 'initial',
-        count: 1
+        count: 1,
+        similarProducts: [{}]
     }
 
     setQuantity = (arg) => {
@@ -65,11 +72,12 @@ class ProductItemDetails extends Component {
         const { match } = this.props
         const { params } = match
         const { id } = params
-        const response = await fetch(`http://localhost:4000/product/${id}`)
+        const response = await fetch(`${serverUrl}/product/${id}`)
         if (response.ok) {
             let data = await response.json()
-            data = data.product
-            this.setState({ productDet: data, apiStatus: apiStatusConstants.success })
+            const ProductData = data.product
+            const similarProducts = data.similarProducts
+            this.setState({ productDet: ProductData, apiStatus: apiStatusConstants.success, similarProducts })
         } else {
             this.setState({ apiStatus: apiStatusConstants.fail })
         }
@@ -122,6 +130,18 @@ class ProductItemDetails extends Component {
         </div>
     )
 
+    renderSimilarProducts = () => (
+        <div className="simalarProductsCon p-5">
+            <h1 className="h2 mb-5">Explore similar ones</h1>
+            {this.state.similarProducts[0].price === undefined ? (<div className="mt-3">
+                <h1 className="text-center text-secondary h2">No Similar Products Available</h1>
+            </div>) :
+                (<div className="d-flex flex-wrap justify-content-around">
+                    {this.state.similarProducts.map((obj, ind) => <TechCard eachCard={{ ...obj, index: ind }} key={uuidv4()} borderColors={borderColors} />)}
+                </div>)}
+        </div>
+    )
+
     renderSuccessView = () => {
         const { productDet, count } = this.state
         const {
@@ -133,61 +153,64 @@ class ProductItemDetails extends Component {
             quantity,
         } = productDet
         return (
-            <div className="d-flex flex-row justify-content-center p-2 mt-4">
-                <div className="itemParentCon">
-                    <div className=" d-flex ">
-                        <div className="itemImg col-6 text-center">
-                            <img src={imageUrl} alt="product" className="imagepord" />
-                        </div>
-                        <div className="d-flex flex-column p-2 justify-content-around">
-                            <h1 className="h3">{title}</h1>
-                            <p className="h5">Rs.{price}</p>
-                            <div className="d-flex">
+            <>
+                <div className="d-flex flex-row justify-content-center p-2 mt-4">
+                    <div className="itemParentCon">
+                        <div className=" d-flex ">
+                            <div className="itemImg col-6 text-center">
+                                <img src={imageUrl} alt="product" className="imagepord" />
+                            </div>
+                            <div className="d-flex flex-column p-2 justify-content-around">
+                                <h1 className="h3">{title}</h1>
+                                <p className="h5">Rs.{price}</p>
+                                <div className="d-flex">
+                                    <button
+                                        type="button"
+                                        className="btn btn-warning d-flex p-1"
+                                    >
+                                        <p className="align-self-center pr-1 m-0">{quality}</p>
+                                        <img
+                                            src="https://assets.ccbp.in/frontend/react-js/star-img.png"
+                                            alt="star"
+                                            className="starimg"
+                                        />
+                                    </button>
+                                </div>
+                                <p className="m-1"></p>
+                                <p>
+                                    <span className="font-weight-bold">Brand: </span>
+                                    {title}
+                                </p>
+                                <p>
+                                    <span className="font-weight-bold">Availability: </span>
+                                    {quantity}
+                                </p>
+                                <p>
+                                    <span className="font-weight-bold">About: </span>
+                                    {description}
+                                </p>
+                                <li className="d-none d-md-block col-md-2">
+                                    <div className="rounded-pill pill d-flex quantity justify-content-around align-items-center">
+                                        <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("-")}><AiOutlineMinus className="p-0 m-0" /></button>
+
+                                        <p className="p-0 m-0 text-dark h6">{count}</p>
+                                        <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("+")}><AiOutlinePlus className="p-0 m-0" /></button>
+
+                                    </div>
+                                </li>
                                 <button
                                     type="button"
-                                    className="btn btn-warning d-flex p-1"
+                                    className="btn btn-primary align-self-start"
+                                    onClick={this.addProductToCart}
                                 >
-                                    <p className="align-self-center pr-1 m-0">{quality}</p>
-                                    <img
-                                        src="https://assets.ccbp.in/frontend/react-js/star-img.png"
-                                        alt="star"
-                                        className="starimg"
-                                    />
+                                    Add to Cart
                                 </button>
                             </div>
-                            <p className="m-1"></p>
-                            <p>
-                                <span className="font-weight-bold">Brand: </span>
-                                {title}
-                            </p>
-                            <p>
-                                <span className="font-weight-bold">Availability: </span>
-                                {quantity}
-                            </p>
-                            <p>
-                                <span className="font-weight-bold">About: </span>
-                                {description}
-                            </p>
-                            <li className="d-none d-md-block col-md-2">
-                                <div className="rounded-pill pill d-flex quantity justify-content-around align-items-center">
-                                    <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("-")}><AiOutlineMinus className="p-0 m-0" /></button>
-
-                                    <p className="p-0 m-0 text-dark h6">{count}</p>
-                                    <button type="button" className="btn m-0 p-0" onClick={() => this.setQuantity("+")}><AiOutlinePlus className="p-0 m-0" /></button>
-
-                                </div>
-                            </li>
-                            <button
-                                type="button"
-                                className="btn btn-primary align-self-start"
-                                onClick={this.addProductToCart}
-                            >
-                                Add to Cart
-                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+                {this.renderSimilarProducts()}
+            </>
         )
     }
 

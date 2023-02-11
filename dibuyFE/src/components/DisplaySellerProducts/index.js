@@ -85,7 +85,7 @@ const DisplaySellerProducts = () => {
     const renderSuccessView = () => (
         <div className="d-flex justify-content-center">
             <div className="tableCon mt-4">
-                <div className="d-flex justify-content-center vh-100">
+                {sellerProducts[0].price !== undefined ? (<div className="d-flex justify-content-center vh-100">
                     <div className="w-100 overflow-auto">
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <TableContainer component={Paper}>
@@ -140,7 +140,11 @@ const DisplaySellerProducts = () => {
                             </TableContainer>
                         </Paper>
                     </div>
-                </div>
+                </div>) : (
+                    <div className="mt-5">
+                        <h1 className="text-center text-secondary h2">Oops! Looks like you haven't added any.</h1>
+                    </div>
+                )}
             </div>
         </div>
     )

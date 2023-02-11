@@ -136,7 +136,7 @@ const Products = () => {
         <div className="d-flex align-items-center justify-content-center emptyConView">
             <div className="">
                 <div className="text-center mb-2">
-                    <img className="emptyProductsView w-50" alt="" src="https://img.freepik.com/premium-vector/order-cancelled-abstract-concept-vector-illustration_107173-20487.jpg?w=740" />
+                    <img className="emptyProductsView w-50" alt="emptyViewImage" src="https://img.freepik.com/premium-vector/order-cancelled-abstract-concept-vector-illustration_107173-20487.jpg?w=740" />
                 </div>
                 <h1 className="h3 text-secondary text-center">Sorry! No prouducts are available with your search.</h1>
             </div>

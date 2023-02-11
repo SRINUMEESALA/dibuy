@@ -131,8 +131,6 @@ const Home = () => {
                 {JoinAsASeller()}
                 {Schemes()}
                 {renderTrusties()}
-                {/* <h1 className="text-primary">Welcome and Say RadheRadhe</h1>
-                <Link to="/user/login">Login page</Link> */}
             </div>
             <Footer />
         </div>
