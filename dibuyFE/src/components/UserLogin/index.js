@@ -77,10 +77,10 @@ const UserLogin = (props) => {
         const response = await fetch(`${serverUrl}/user/verifyotp`, options2)
         const data = await response.json()
         // console.log(response)
-        console.log(data)
+        // console.log(data)
         if (response.ok) {
             const jwtToken = data.jwt_Token
-            Cookies.set("jwtToken", jwtToken, { expires: 1 })
+            Cookies.set("jwtToken", jwtToken, { expires: 30 })
             setIsValidOtp(true)
             setTimeout(() => {
                 const { history } = props
@@ -98,7 +98,7 @@ const UserLogin = (props) => {
         const CheckingEmail = regex.test(email)
         if (CheckingEmail) {
             // verify user in db
-            console.log("isUserExists triggered")
+            // console.log("isUserExists triggered")
             const options = {
                 method: "POST",
                 body: JSON.stringify({
@@ -106,19 +106,22 @@ const UserLogin = (props) => {
                 }),
                 headers: { 'Content-Type': 'application/json' }
             }
-            const response = await fetch(`${serverUrl}/user/verify`, options)
-            const result = await response.json()
-            const isUserExists = result.exist
-            if (isUserExists) {
-                setSentOtp(true)
-                setIsValidEmail(true)
-                sendOtp()
-                setSnackBarOpen(true)
-            } else {
-                const { history } = props
-                history.replace("/register")
+            try {
+                const response = await fetch(`${serverUrl}/user/verify`, options)
+                const result = await response.json()
+                const isUserExists = result.exist
+                if (isUserExists) {
+                    setSentOtp(true)
+                    setIsValidEmail(true)
+                    sendOtp()
+                    setSnackBarOpen(true)
+                } else {
+                    const { history } = props
+                    history.replace("/register")
+                }
+            } catch (err) {
+                console.log("Could not verify the user", err)
             }
-
         } else {
             setIsValidEmail(false)
         }

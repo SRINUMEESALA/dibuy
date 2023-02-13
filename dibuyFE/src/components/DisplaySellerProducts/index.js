@@ -66,7 +66,7 @@ const DisplaySellerProducts = () => {
             if (response.ok) {
                 const result = await response.json()
                 setSellerProducts(result.products)
-                console.log(result.products)
+                // console.log(result.products)
                 setGetProductsApiStatus(apiStatusConstants.success)
             } else {
                 setGetProductsApiStatus(apiStatusConstants.fail)
@@ -82,10 +82,12 @@ const DisplaySellerProducts = () => {
         getProducs()
     }, [])
 
+    // console.log("seller products of 0 is", sellerProducts[0])
+
     const renderSuccessView = () => (
         <div className="d-flex justify-content-center">
             <div className="tableCon mt-4">
-                {sellerProducts[0].price !== undefined ? (<div className="d-flex justify-content-center vh-100">
+                {sellerProducts[0] !== undefined ? (<div className="d-flex justify-content-center vh-100">
                     <div className="w-100 overflow-auto">
                         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                             <TableContainer component={Paper}>
@@ -141,7 +143,7 @@ const DisplaySellerProducts = () => {
                         </Paper>
                     </div>
                 </div>) : (
-                    <div className="mt-5">
+                    <div className="mt-5 mb-5">
                         <h1 className="text-center text-secondary h2">Oops! Looks like you haven't added any.</h1>
                     </div>
                 )}

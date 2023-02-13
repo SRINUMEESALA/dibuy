@@ -19,7 +19,7 @@ const apiStatusConstants = {
 const SellerCorner = (props) => {
     const [sellerApiStatus, setSellerApiStatus] = useState(apiStatusConstants.inital)
     const [seller, setSeller] = useState({})
-    console.log(sellerApiStatus)
+    // console.log(sellerApiStatus)
     const verifySeller = async () => {
         setSellerApiStatus(apiStatusConstants.load)
         try {
@@ -52,7 +52,7 @@ const SellerCorner = (props) => {
             }
 
         } catch (err) {
-            console.log("Could not get email of the user")
+            console.log("Could not get email of the user", err)
             setSellerApiStatus(apiStatusConstants.fail)
         }
 

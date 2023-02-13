@@ -52,7 +52,7 @@ const Header = (props) => {
     const [currentUser, setCurrentUser] = useState("RadheKrishna")
     const sliderSize = screenSize < 768 ? 170 : 250;
 
-    console.log(currentUser)
+    // console.log(currentUser)
 
     const getUserEmail = async () => {
         try {
@@ -68,7 +68,7 @@ const Header = (props) => {
             const result = await response.json()
             setCurrentUser(result.email)
         } catch (err) {
-            console.log("Could not get email of the user")
+            console.log("Could not get email of the user", err)
         }
     }
 

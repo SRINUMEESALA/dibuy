@@ -91,16 +91,16 @@ const TopSellingProducts = () => {
         try {
             const response = await fetch(url, options)
             const productsList = await response.json()
-            console.log(url, productsList)
+            // console.log(url, productsList)
             if (response.ok) {
                 setTopProducts(productsList.productsList)
                 setGetTopProductsApiStatus(apiStatusConstants.success)
-                console.log(topProducts)
+                // console.log(topProducts)
             } else {
                 setGetTopProductsApiStatus(apiStatusConstants.fail)
             }
         } catch (err) {
-            console.log("Oops! something went wrong.")
+            console.log("Oops! something went wrong.", err)
         }
     }
 

@@ -140,7 +140,7 @@ const UserAccount = () => {
                         setPassowordTwo("")
                         setProfilePic("")
                     }, 2000)
-                    console.log(result, url)
+                    // console.log(result, url)
                 } else {
                     console.log(result)
                 }
@@ -213,7 +213,7 @@ const UserAccount = () => {
             }
 
         } catch (err) {
-            console.log("something went wrong")
+            console.log("something went wrong", err)
             setAccountCardApiStatus(apiStatusConstants.fail)
         }
     }
@@ -240,7 +240,7 @@ const UserAccount = () => {
 
 
         } catch (err) {
-            console.log("Something went wrong in getQRcode function")
+            console.log("Something went wrong in getQRcode function", err)
             setQrApiStatus(apiStatusConstants.fail)
         }
     }

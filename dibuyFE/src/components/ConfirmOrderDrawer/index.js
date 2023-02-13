@@ -86,7 +86,7 @@ function cart(props) {
                 })
                 setCartValue(total)
                 setProducts(finalCart)
-                console.log(products)
+                // console.log(products)
                 setApiStatus(apiStatusConstants.success)
             } else {
                 setApiStatus(apiStatusConstants.fail)
@@ -94,6 +94,7 @@ function cart(props) {
 
         } catch (err) {
             setApiStatus(apiStatusConstants.fail)
+            console.log("could not get cart products", err)
         }
 
     }

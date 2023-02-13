@@ -36,7 +36,7 @@ const SellerAddProduct = () => {
             }
             const response = await fetch(url, options)
             const result = await response.json()
-            console.log(result)
+            // console.log(result)
         } catch (err) {
             console.log("Something went wrong in uploading the product", err)
         }

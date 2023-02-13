@@ -47,8 +47,7 @@ const settings = {
 
 const BannerSection = () => {
     const slider = useRef(null)
-    // const bannersList = [{ imageUrl: "https://img.freepik.com/premium-vector/vector-illustration-durga-puja-sale-banner_181203-10184.jpg?w=996", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/banner-concept-social-media-marketing-with-large-megaphone-screen_129685-325.jpg?w=826", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/happy-farmers-day-indian-farmer-working-agriculture-field_628838-1988.jpg?w=900", id: uuidv4() }]
-    const bannersList = [{ imageUrl: "https://img.freepik.com/premium-vector/farm-farmer-typographic-header-concept-farmers-working-field-watering-plants-feeding-animals-summer-countryside-view-agriculture-concept-living-village_277904-6044.jpg?w=900", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/farmer-cartoon_48369-1308.jpg?w=826", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/agricultural-farming-services-landscape-banner-design-template_262129-11383.jpg?w=826", id: uuidv4() }]
+    const bannersList = [{ imageUrl: "https://img.freepik.com/premium-vector/farmer-cartoon_48369-1308.jpg?w=826", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/farm-farmer-typographic-header-concept-farmers-working-field-watering-plants-feeding-animals-summer-countryside-view-agriculture-concept-living-village_277904-6044.jpg?w=900", id: uuidv4() }, { imageUrl: "https://img.freepik.com/premium-vector/agricultural-farming-services-landscape-banner-design-template_262129-11383.jpg?w=826", id: uuidv4() }]
     return (
         <div className="videosSliderParentCon mt-2">
             <Slider {...settings} ref={slider}>

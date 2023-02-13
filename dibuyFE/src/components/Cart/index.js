@@ -43,9 +43,9 @@ const Cart = (props) => {
             }
             const response = await fetch(url, options)
             const result = await response.json()
-            console.log(result)
+            // console.log(result)
         } catch (err) {
-            console.log("Could raise HTTP in emptyCartAfterOrderPlaced")
+            console.log("Could raise HTTP in emptyCartAfterOrderPlaced", err)
         }
 
     }
@@ -88,7 +88,7 @@ const Cart = (props) => {
                 })
                 setCartValue(total)
                 setProducts(finalCart)
-                console.log(products)
+                // console.log(products)
                 setApiStatus(apiStatusConstants.success)
             } else {
                 setApiStatus(apiStatusConstants.fail)
@@ -96,6 +96,7 @@ const Cart = (props) => {
 
         } catch (err) {
             setApiStatus(apiStatusConstants.fail)
+            console.log("could load products", err)
         }
 
     }

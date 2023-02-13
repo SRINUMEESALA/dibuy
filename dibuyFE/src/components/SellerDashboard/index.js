@@ -152,7 +152,7 @@ const SellerDashboard = (props) => {
             }
 
         } catch (err) {
-            console.log("Could not get verify seller account of the user")
+            console.log("Could not get verify seller account of the user", err)
             setIsSellerApiStatus(apiStatusConstants.fail)
         }
 

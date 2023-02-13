@@ -55,7 +55,7 @@ export default function SellerRegistration(props) {
             const response = await fetch(url, options)
             const result = await response.json()
             if (response.status === 201) {
-                console.log(result)
+                // console.log(result)
                 const { history } = props
                 history.replace("/sellerCorner")
             } else {
@@ -63,7 +63,7 @@ export default function SellerRegistration(props) {
             }
 
         } catch (err) {
-            console.log("error occured")
+            console.log("error occured", err)
         }
     }
 
@@ -93,7 +93,7 @@ export default function SellerRegistration(props) {
             }
 
         } catch (err) {
-            console.log("Could not get email of the user")
+            console.log("Could not get email of the user", err)
             setIsSellerExists(apiStatusConstants.fail)
         }
 
@@ -133,7 +133,7 @@ export default function SellerRegistration(props) {
                 // find the first step that has been completed
                 steps.findIndex((step, i) => !(i in completed))
                 : activeStep + 1;
-        console.log(activeStep, accountHolderName, accountNumber, IFSC)
+        // console.log(activeStep, accountHolderName, accountNumber, IFSC)
         if (activeStep === 2 && accountHolderName !== "" && accountNumber !== 1234567890 && IFSC !== "") {
             setIsFormFilled(true)
         } else if (activeStep === 2) {

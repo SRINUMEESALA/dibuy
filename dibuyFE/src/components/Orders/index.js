@@ -34,7 +34,7 @@ const Orders = () => {
             if (response.ok) {
                 const result = await response.json()
                 setHistory(result.orders)
-                console.log(result.orders)
+                // console.log(result.orders)
 
                 setGetHistoryApiStatus(apiStatusConstants.success)
             } else {
@@ -42,7 +42,7 @@ const Orders = () => {
             }
 
         } catch (err) {
-            console.log("Could raise HTTP in emptyCartAfterOrderPlaced")
+            console.log("Could raise HTTP in emptyCartAfterOrderPlaced", err)
             setGetHistoryApiStatus(apiStatusConstants.fail)
         }
     }

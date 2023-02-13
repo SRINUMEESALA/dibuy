@@ -11,7 +11,7 @@ const ManageSellerAccount = (props) => {
     const [accountNumber, setAccountNumber] = useState(props.seller.accountNumber)
     const [IFSC, setIFSC] = useState(props.seller.IFSC)
 
-    console.log("seller object is", accountHolderName, accountNumber, IFSC, props.seller)
+    // console.log("seller object is", accountHolderName, accountNumber, IFSC, props.seller)
 
     const updateDetails = async () => {
         try {
@@ -31,9 +31,9 @@ const ManageSellerAccount = (props) => {
             }
             const response = await fetch(url, options)
             const result = await response.json()
-            console.log(result)
+            // console.log(result)
         } catch (err) {
-            console.log(err)
+            console.log("could not updated account details", err)
         }
     }
     if (!isEdit) {

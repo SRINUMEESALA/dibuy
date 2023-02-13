@@ -68,19 +68,25 @@ class ProductItemDetails extends Component {
 
 
     fetchProductDetails = async () => {
-        this.setState({ apiStatus: apiStatusConstants.load })
-        const { match } = this.props
-        const { params } = match
-        const { id } = params
-        const response = await fetch(`${serverUrl}/product/${id}`)
-        if (response.ok) {
-            let data = await response.json()
-            const ProductData = data.product
-            const similarProducts = data.similarProducts
-            this.setState({ productDet: ProductData, apiStatus: apiStatusConstants.success, similarProducts })
-        } else {
+        try {
+            this.setState({ apiStatus: apiStatusConstants.load })
+            const { match } = this.props
+            const { params } = match
+            const { id } = params
+            const response = await fetch(`${serverUrl}/product/${id}`)
+            if (response.ok) {
+                let data = await response.json()
+                const ProductData = data.product
+                const similarProducts = data.similarProducts
+                this.setState({ productDet: ProductData, apiStatus: apiStatusConstants.success, similarProducts })
+            } else {
+                this.setState({ apiStatus: apiStatusConstants.fail })
+            }
+        } catch (err) {
+            console.log("Could not get product details", err)
             this.setState({ apiStatus: apiStatusConstants.fail })
         }
+
     }
 
     changeQuantity = who => {
@@ -230,8 +236,8 @@ class ProductItemDetails extends Component {
     }
 
     render() {
-        const { apiStatus } = this.state
-        console.log(apiStatus)
+        // const { apiStatus } = this.state
+        // console.log(apiStatus)
         return (
             <div className="productDetailsParentCon d-flex flex-column">
                 <Header />

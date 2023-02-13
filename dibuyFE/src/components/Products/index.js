@@ -14,15 +14,16 @@ import ProductsList from "../ProductsList";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Cookies from "js-cookie";
 
 
 // for MiUi styles
 
 
 // Filter Options
-const CategoryItems = [
-    { label: "All", id: "All" }, { label: "Clothing", id: "Clothing" }, { label: "Electronics", id: "Electronics" }, { label: "Vegetables", id: "Vegetables" }, { label: "Farming", id: "Farming" }, { label: "Spices", id: "Spices" }
-];
+// const CategoryItems = [
+//     { label: "All", id: "All" }, { label: "Clothing", id: "Clothing" }, { label: "Electronics", id: "Electronics" }, { label: "Vegetables", id: "Vegetables" }, { label: "Farming", id: "Farming" }, { label: "Spices", id: "Spices" }
+// ];
 
 const apiStatusConstants = {
     fail: "Failed",
@@ -38,8 +39,10 @@ const Products = () => {
     const [searchInput, setSearchInput] = useState("")
     const [sortByCategory, setSortByCategory] = useState("All")
     const [productsApiStatus, setProductsApiStatus] = useState("initial")
+    const [CategoryItems, setCategoryItems] = useState([{}])
 
-    console.log(sortByPrice, sortByRating, sortByCategory, searchInput)
+    // console.log(sortByPrice, sortByRating, sortByCategory, searchInput)
+    // console.log(CategoryItems)
 
     const getProducts = async () => {
         setProductsApiStatus(apiStatusConstants.load)
@@ -47,18 +50,30 @@ const Products = () => {
         const options = {
             method: "GET"
         }
+        const url2 = `${serverUrl}/products/categories`
+        const options2 = {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${Cookies.get("jwtToken")}`
+            }
+        }
+        // console.log(url2, options2)
         try {
             const response = await fetch(url, options)
             const productsList = await response.json()
-            console.log(url, productsList)
+            const response2 = await fetch(url2, options2)
+            const result2 = await response2.json()
+
             if (response.ok) {
                 setProducts(productsList.productsList)
+                setCategoryItems(result2)
                 setProductsApiStatus(apiStatusConstants.success)
             } else {
                 setProductsApiStatus(apiStatusConstants.fail)
             }
         } catch (err) {
-            console.log("Oops! something went wrong.")
+            console.log("Oops! something went wrong.", err)
+            setProductsApiStatus(apiStatusConstants.fail)
         }
     }
 

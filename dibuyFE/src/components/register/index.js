@@ -19,7 +19,7 @@ const Register = (props) => {
 
     const submitForm = async (event) => {
         event.preventDefault()
-        console.log(name, email, password, gender, location, mobile)
+        // console.log(name, email, password, gender, location, mobile)
         const options = {
             method: "POST",
             body: JSON.stringify({
@@ -27,19 +27,24 @@ const Register = (props) => {
             }),
             headers: { 'Content-Type': 'application/json' }
         }
-        const response = await fetch(`${serverUrl}/user/register`, options)
-        const result = await response.json()
-        if (response.ok) {
-            setSuccess(true)
-            setError(false)
-            setTimeout(() => {
-                const { history } = props
-                history.replace("/user/login")
-            }, 2000)
+        try {
+            const response = await fetch(`${serverUrl}/user/register`, options)
+            const result = await response.json()
+            if (response.status === 201) {
+                setSuccess(true)
+                setError(false)
+                setTimeout(() => {
+                    const { history } = props
+                    history.replace("/user/login")
+                }, 2000)
 
-        } else {
-            setError(true)
+            } else {
+                setError(true)
+            }
+        } catch (err) {
+            console.log("Could not register", err)
         }
+
     }
 
     return (

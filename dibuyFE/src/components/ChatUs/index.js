@@ -24,9 +24,9 @@ const ChatUs = () => {
             </div>
             <div className="col-6">
                 <h1 className="text-center h3">Add Your Query</h1>
-                <div class="form-group">
+                <div className="form-group">
                     <input type="text" placeholder="Subject" className="form-control mb-2" />
-                    <textarea class="form-control rounded-0" rows="7" onChange={(event) => setText(event.target.value)} value={text} placeholder="Enter your query here..."></textarea>
+                    <textarea className="form-control rounded-0" rows="7" onChange={(event) => setText(event.target.value)} value={text} placeholder="Enter your query here..."></textarea>
                 </div>
                 <Button color="info" variant="contained" className="w-100" onClick={() => {
                     setSubmitted(true)
@@ -38,11 +38,11 @@ const ChatUs = () => {
     )
     return (
         <>
-        <Header/>
-        <div className="chatUsParentCon d-flex flex-colum justify-content-center align-items-center vh-100">
-            {submited ? renderSubmitted() : renderChat()}
-        </div>
-        <Footer/>
+            <Header />
+            <div className="chatUsParentCon d-flex flex-colum justify-content-center align-items-center vh-100">
+                {submited ? renderSubmitted() : renderChat()}
+            </div>
+            <Footer />
         </>
     )
 }

@@ -7,7 +7,7 @@ const productsRoute = new express.Router()
 
 
 const product = async (request, response) => {
-    console.log("Get Product is accessed")
+    console.log("Accessed - Product API")
     try {
         const _id = request.params.id
         const productsList = await Product.find({ _id })
@@ -18,11 +18,12 @@ const product = async (request, response) => {
     } catch (err) {
         response.status(404)
         response.send("No products Found")
+        console.log(err)
     }
 }
 
 const products = async (request, response) => {
-    console.log("productquery accessed")
+    console.log("Accessed - Products API")
     let { category, price, quality, search } = request.query
     const reg = search === '""' ? new RegExp('', "i") : new RegExp(search, "i")
     let order;
@@ -39,6 +40,7 @@ const products = async (request, response) => {
         } catch (err) {
             response.status(500)
             response.send("No products Found")
+            console.log(err)
         }
     } else {
         try {
@@ -48,6 +50,7 @@ const products = async (request, response) => {
         } catch (err) {
             response.status(500)
             response.send("No products Found")
+            console.log(err)
         }
 
     }
@@ -55,6 +58,7 @@ const products = async (request, response) => {
 }
 
 const addProduct = async (request, response) => {
+    console.log("Accessed - AddProduct API")
     try {
         console.log(request.body)
         const prod = await Product(request.body).save()
@@ -75,6 +79,7 @@ const addProduct = async (request, response) => {
 }
 
 const getSellerProducts = async (request, response) => {
+    console.log("Accessed - GetSellerProducts API")
     try {
         const getUser = await User.findOne({ email: request.currentUser })
         const productsList = getUser.products
@@ -89,6 +94,30 @@ const getSellerProducts = async (request, response) => {
 }
 
 
+const findCategories = async (request, response) => {
+    console.log("Accessed - FindCategories API")
+    try {
+        const res = await Product.aggregate([
+            { $group: { _id: "$category" } }
+        ])
+        let finalCat = []
+        res.forEach(e => {
+            if (e._id !== null) {
+                finalCat.push({ label: e._id, id: e._id })
+            }
+        })
+        response.status(200)
+        response.send(finalCat)
+    } catch (err) {
+        response.status(500)
+        response.send({ msg: "Can't get products categories" })
+        console.log(err)
+    }
+
+
+}
+
+
 
 
 
@@ -98,10 +127,19 @@ productsRoute.get("/products", products)
 productsRoute.get("/product/:id", product)
 productsRoute.post("/products/add", authorizeUser, addProduct)
 productsRoute.get("/seller/products", authorizeUser, getSellerProducts)
+productsRoute.get("/products/categories", authorizeUser, findCategories)
 
 
 export default productsRoute
 
 
 
+
 // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyRW1haWwiOiJzcmludXNyaTc2NTg1QGdtYWlsLmNvbSIsImlhdCI6MTY3NDcwODgzMX0.QNkp8Y4jhoKIezwAm8Nc4RYtHYeTX7AbgifIRLfCvpY"
+
+
+
+// const a = async () => {
+//     const del = await Product.deleteMany()
+// }
+// a()
