@@ -1,11 +1,13 @@
 import "./index.css"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { serverUrl } from "../../sources";
 import Cookies from "js-cookie";
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
 
 const SellerAddProduct = () => {
     const [submited, setSubmited] = useState(false)
@@ -16,6 +18,7 @@ const SellerAddProduct = () => {
     const [description, setDescription] = useState("")
     const [category, setCategory] = useState("")
     const [imageUrl, setImageUrl] = useState("")
+    const [saleType, setSaleType] = useState("general")
 
 
     const addProduct = async () => {
@@ -31,21 +34,24 @@ const SellerAddProduct = () => {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify({
-                    imageUrl, category, quality, quantity, description, title, price
+                    imageUrl, category, quality, quantity, description, title, price, saleType
                 })
             }
             const response = await fetch(url, options)
             const result = await response.json()
-            // console.log(result)
+            console.log(result, options)
         } catch (err) {
             console.log("Something went wrong in uploading the product", err)
         }
 
     }
 
-    if (submited) {
-        addProduct()
-    }
+    useEffect(() => {
+        if (submited) {
+            addProduct()
+        }
+    }, [submited])
+
 
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
@@ -73,33 +79,45 @@ const SellerAddProduct = () => {
                     <TextField type="text" label="Categrory" variant="outlined" className="m-2" onChange={(event) => setCategory(event.target.value)} />
                     <TextField type="text" label="Title" variant="outlined" className="m-2" onChange={(event) => setTitle(event.target.value)} />
                     <TextField type="text" label="Quantity" variant="outlined" className="m-2" onChange={(event) => setQuantity(event.target.value)} />
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={saleType}
+                        size="normal"
+                        className="m-2 ml-0"
+                        onChange={(event) => setSaleType(event.target.value)}
+                        required
+                    >
+                        <MenuItem value="general">General</MenuItem>
+                        <MenuItem value="government">Government</MenuItem>
+                        <MenuItem value="rent">Rent</MenuItem>
+                    </Select>
                 </div>
                 <div className="d-flex flex-column col-6">
                     <TextField type="text" label="Quality" variant="outlined" className="m-2" onChange={(event) => setQuality(event.target.value)} />
                     <TextField label="Price" type="number" variant="outlined" className="m-2" onChange={(event) => setPrice(event.target.value)} />
                     <TextField type="text" label="Description" variant="outlined" className="m-2" onChange={(event) => setDescription(event.target.value)} />
-                    <IconButton color="secondary" aria-label="upload picture" component="label" className="align-self-end">
+                    <>
+                        <IconButton color="secondary" aria-label="upload picture" component="label" className="align-self-end">
+                            <Button
+                                variant="outlined"
+                                color="info"
+                            >
+                                <input accept="image/*" type="file" onChange={uploadImage} className="p-0 m-0 col-10" />
+                                <PhotoCamera sx={{}} />
+                            </Button>
+                        </IconButton>
                         <Button
-                            variant="outlined"
-                            color="info"
+                            variant="contained"
+                            color="secondary"
+
+                            sx={{ pl: 3, pr: 3, mt: 5, mb: 5 }}
+                            onClick={() => setSubmited(!submited)}
                         >
-                            <input accept="image/*" type="file" onChange={uploadImage} className="p-0 m-0 col-10" />
-                            <PhotoCamera sx={{}} />
+                            {submited ? "Add More" : "Add"}
                         </Button>
-
-                    </IconButton>
-
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{ pl: 3, pr: 3, mt: 5, mb: 5 }}
-                        onClick={() => setSubmited(!submited)}
-                    >
-                        {submited ? "Add More" : "Add"}
-                    </Button>
-
+                    </>
                 </div>
-
             </div>
         </div >
     )
@@ -117,6 +135,7 @@ const SellerAddProduct = () => {
                     variant="contained"
                     color="secondary"
                     sx={{ pl: 3, pr: 3, mt: 5 }}
+
                     onClick={() => setSubmited(!submited)}
                 >
                     {submited ? "Add More" : "Add"}

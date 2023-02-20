@@ -198,7 +198,7 @@ const DisplaySellerProducts = () => {
     }
 
     return (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center mb-5">
             {/* <Header /> */}
             <div className="p-3 manageSellerCon d-flex flex-column">
                 <div className="w-100">

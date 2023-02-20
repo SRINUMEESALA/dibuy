@@ -20,6 +20,8 @@ import Orders from './components/Orders'
 import SellerDashboard from './components/SellerDashboard'
 import ChatUs from './components/ChatUs'
 import UserAccount from './components/UserAccount'
+import Admin from './components/Admin'
+import AdminLogin from './components/AdminLogin'
 
 
 document.title = "DiBuy";
@@ -60,6 +62,8 @@ const App = () => {
           <ProtectedRoute exact path="/sellercorner" component={SellerCorner} />
           <ProtectedRoute exact path="/seller/dashboard" component={SellerDashboard} />
           <ProtectedRoute exact path="/user/account" component={UserAccount} />
+          <ProtectedRoute exact path="/admin" component={Admin} />
+          <ProtectedRoute exact path="/admin/login" component={AdminLogin} />
           <Route exact path="/temp" component={Temp} />
           <Route component={NotFound} />
         </Switch>

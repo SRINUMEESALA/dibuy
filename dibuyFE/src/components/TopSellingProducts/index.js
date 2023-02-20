@@ -84,7 +84,7 @@ const TopSellingProducts = () => {
 
     const getTopProducts = async () => {
         setGetTopProductsApiStatus(apiStatusConstants.load)
-        const url = `${serverUrl}/products?category=All&price=LowToHigh&quality=4&search=""`
+        const url = `${serverUrl}/products?category=All&price=LowToHigh&quality=4&search=""&saleType=general`
         const options = {
             method: "GET"
         }
@@ -93,7 +93,7 @@ const TopSellingProducts = () => {
             const productsList = await response.json()
             // console.log(url, productsList)
             if (response.ok) {
-                setTopProducts(productsList.productsList)
+                setTopProducts(productsList.productsList.slice(0, 10))
                 setGetTopProductsApiStatus(apiStatusConstants.success)
                 // console.log(topProducts)
             } else {

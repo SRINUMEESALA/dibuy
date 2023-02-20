@@ -46,7 +46,7 @@ const Products = () => {
 
     const getProducts = async () => {
         setProductsApiStatus(apiStatusConstants.load)
-        const url = `${serverUrl}/products?category=${sortByCategory}&price=${sortByPrice}&quality=${sortByRating}&search=${searchInput}`
+        const url = `${serverUrl}/products?category=${sortByCategory}&price=${sortByPrice}&quality=${sortByRating}&search=${searchInput}&saleType=general`
         const options = {
             method: "GET"
         }

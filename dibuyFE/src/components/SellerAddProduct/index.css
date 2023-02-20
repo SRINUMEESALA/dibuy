@@ -1,7 +1,9 @@
 .addProductCon {
     background-color: #F0FFFF;
+    height: 80vh;
 }
 
 .productSuccssAdd {
-    min-height: 57vh;
+    height: 70vh;
+    width: 70vh;
 }

@@ -25,8 +25,11 @@ class ProductItemDetails extends Component {
         productDet: {},
         apiStatus: 'initial',
         count: 1,
-        similarProducts: [{}]
+        similarProducts: [{}],
+        firstTime: true
     }
+
+
 
     setQuantity = (arg) => {
         const { count } = this.state
@@ -62,18 +65,19 @@ class ProductItemDetails extends Component {
     }
 
     componentDidMount() {
-        this.fetchProductDetails()
+        const { match } = this.props
+        const { params } = match
+        const { id } = params
+        this.fetchProductDetails(id)
     }
 
 
 
-    fetchProductDetails = async () => {
+    fetchProductDetails = async (id) => {
         try {
-            this.setState({ apiStatus: apiStatusConstants.load })
-            const { match } = this.props
-            const { params } = match
-            const { id } = params
+
             const response = await fetch(`${serverUrl}/product/${id}`)
+            console.log(id)
             if (response.ok) {
                 let data = await response.json()
                 const ProductData = data.product
@@ -87,6 +91,10 @@ class ProductItemDetails extends Component {
             this.setState({ apiStatus: apiStatusConstants.fail })
         }
 
+    }
+
+    updateStateForSimilarProdClick = (prodId) => {
+        this.fetchProductDetails(prodId)
     }
 
     changeQuantity = who => {
@@ -143,7 +151,7 @@ class ProductItemDetails extends Component {
                 <h1 className="text-center text-secondary h2">No Similar Products Available</h1>
             </div>) :
                 (<div className="d-flex flex-wrap justify-content-around">
-                    {this.state.similarProducts.map((obj, ind) => <TechCard eachCard={{ ...obj, index: ind }} key={uuidv4()} borderColors={borderColors} />)}
+                    {this.state.similarProducts.map((obj, ind) => <TechCard eachCard={{ ...obj, index: ind }} key={uuidv4()} borderColors={borderColors} updateStateForSimilarProdClick={this.updateStateForSimilarProdClick} />)}
                 </div>)}
         </div>
     )
