@@ -85,7 +85,7 @@ const Admin = (props) => {
     const renderSuccessView = () => (
         <>
             <Header />
-            <div className="adminCon d-flex flex-column mb-3">
+            <div className="adminCon d-flex flex-column mb-5">
                 <div className="contentCon align-self-center">
                     <div className="introCon d-flex flex-column justify-content-center">
                         <h1 className="ml-5 h4" style={{ color: "#ff4081" }}>Welcome To </h1>
@@ -102,7 +102,12 @@ const Admin = (props) => {
                     <div className="contentCon align-self-center" >
                         <div className="d-flex justify-content-between">
                             <h1 className="h2 pt-3 pb-3">Available Stock</h1>
-                            <Button variant="contained" className="align-self-center">Sell Stock</Button>
+                            <div className="text-right d-flex flex-column justify-content-center">
+                                <div>
+                                    <button className="btn btn-danger mr-3 adButton" type="button" onClick={logoutAdmin}>Logout</button>
+                                    <Button variant="contained" className="align-self-center adButton">Sell Stock</Button>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="align-self-center d-flex flex-column" >
@@ -127,9 +132,7 @@ const Admin = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="text-right">
-                        <button className="btn btn-danger mb-5 mr-3" type="button" onClick={logoutAdmin}>Logout</button>
-                    </div>
+
                 </div>
 
                 <>
@@ -137,10 +140,10 @@ const Admin = (props) => {
                         open={open}
                         onClose={handleClose}
                     >
-                        <div className="logoutCon d-flex flex-column justify-content-between p-5">
+                        <div className="logoutCon d-flex flex-column justify-content-center align-items-center">
                             <p className="text-secondary text-center h3">Choose</p>
-                            <button className="btn btn-primary m-2" type="button" onClick={() => setOpen(false)}>Sell</button>
-                            <button className="btn btn-danger m-2 " type="button" onClick={() => setOpen(false)}>Remove</button>
+                            <button className="btn btn-primary m-0 mb-3 mt-4" type="button" onClick={() => setOpen(false)}>Sell</button>
+                            <button className="btn btn-danger m-0" type="button" onClick={() => setOpen(false)}>Remove</button>
                         </div>
                     </Dialog>
                 </>

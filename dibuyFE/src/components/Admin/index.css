@@ -21,7 +21,7 @@
 
 .productsAdminCon {
     background-color: #212121;
-    height:120vh;
+    height: 120vh;
 }
 
 .tableHead {
@@ -56,6 +56,10 @@
 
 .logoutCon button {
     width: 200px;
+}
+
+.adButton {
+    width: 150px;
 }
 
 /* for animation */
