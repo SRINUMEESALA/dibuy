@@ -22,6 +22,7 @@ import ChatUs from './components/ChatUs'
 import UserAccount from './components/UserAccount'
 import Admin from './components/Admin'
 import AdminLogin from './components/AdminLogin'
+import FairPrice from './components/FairPrice'
 
 
 document.title = "DiBuy";
@@ -64,6 +65,7 @@ const App = () => {
           <ProtectedRoute exact path="/user/account" component={UserAccount} />
           <ProtectedRoute exact path="/admin" component={Admin} />
           <ProtectedRoute exact path="/admin/login" component={AdminLogin} />
+          <ProtectedRoute exact path="/fair-price" component={FairPrice} />
           <Route exact path="/temp" component={Temp} />
           <Route component={NotFound} />
         </Switch>

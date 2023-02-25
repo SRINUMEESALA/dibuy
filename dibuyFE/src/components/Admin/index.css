@@ -21,7 +21,7 @@
 
 .productsAdminCon {
     background-color: #212121;
-    height: 120vh;
+    min-height: 100vh;
 }
 
 .tableHead {

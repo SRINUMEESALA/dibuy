@@ -11,6 +11,8 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import { TypeAnimation } from 'react-type-animation';
 import { serverUrl } from "../../sources";
 import Cookies from "js-cookie"
+import UpdateFairPrice from "../UpdateFairPrice";
+import Validator from "../Validator";
 import Header from "../Header";
 import Footer from "../Footer";
 
@@ -33,10 +35,12 @@ const Admin = (props) => {
         setApiStatus(apiStatusConstants.loading)
         try {
             const url = `${serverUrl}/products/products-for-govt`
+            // const url = `http://localhost:4000/products/products-for-govt`
             const options = {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${Cookies.get("jwtToken")}`,
+                    // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyRW1haWwiOiJzcmludXNyaTc2NTg1QGdtYWlsLmNvbSIsImlhdCI6MTY3NDcwODgzMX0.QNkp8Y4jhoKIezwAm8Nc4RYtHYeTX7AbgifIRLfCvpY`,
                 }
             }
             const response = await fetch(url, options)
@@ -82,6 +86,42 @@ const Admin = (props) => {
         }
     }
 
+    const renderGovtProducts = () => (
+        <div className="contentCon align-self-center" >
+            <div className="d-flex justify-content-between">
+                <h1 className="h2 pt-3 pb-3 text-warning">Available Stock</h1>
+                <div className="text-right d-flex flex-column justify-content-center">
+                    <div>
+                        <button className="btn btn-danger mr-3 adButton" type="button" onClick={logoutAdmin}>Logout</button>
+                        <Button variant="contained" className="align-self-center adButton">Sell Stock</Button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="align-self-center d-flex flex-column" >
+                <div className="tableCon overflow-auto align-self-center" style={{ backgroundColor: "#424242" }}>
+                    <ul className="tableHead d-flex list-unstyled pt-3 pb-2" >
+                        <li className="col-2"></li>
+                        <li className="col-4">Product</li>
+                        <li className="col-2">Quantity</li>
+                        <li className="col-3">Category</li>
+                        <li className="col-1"></li>
+                    </ul>
+                    {productsForGvt.map(obj => (
+                        <ul className={`tableRow d-flex list-unstyled ml-2 mr-2 rounded ${activeItems.includes(obj._id) && "tableRowColor"}`} style={{ color: "#C4C4C4	" }} key={uuidv4()}>
+                            <li className="col-2">  <Checkbox {...label} onChange={(event) => checkBoxChanged(event, obj._id)} className=" align-self-center text-primary" checked={activeItems.includes(obj._id)} /></li>
+                            <li className="col-4">{obj.title}</li>
+                            <li className="col-2">{obj.quantity}</li>
+                            <li className="col-3 d-flex justify-content-center"><Chip label={obj.category} color="primary" variant="outlined" className="w-50" /></li>
+                            <li className="col-1 h4 btn text-white d-flex m-0"><AiOutlineMore className="align-self-center" onClick={handleClickOpen} /></li>
+                        </ul>)
+                    )}
+
+                </div>
+            </div>
+        </div>
+    )
+
     const renderSuccessView = () => (
         <>
             <Header />
@@ -99,40 +139,9 @@ const Admin = (props) => {
                     </div>
                 </div>
                 <div className="productsAdminCon text-light d-flex flex-column">
-                    <div className="contentCon align-self-center" >
-                        <div className="d-flex justify-content-between">
-                            <h1 className="h2 pt-3 pb-3">Available Stock</h1>
-                            <div className="text-right d-flex flex-column justify-content-center">
-                                <div>
-                                    <button className="btn btn-danger mr-3 adButton" type="button" onClick={logoutAdmin}>Logout</button>
-                                    <Button variant="contained" className="align-self-center adButton">Sell Stock</Button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="align-self-center d-flex flex-column" >
-                            <div className="tableCon overflow-auto align-self-center" style={{ backgroundColor: "#424242" }}>
-                                <ul className="tableHead d-flex list-unstyled pt-3 pb-2" >
-                                    <li className="col-2"></li>
-                                    <li className="col-4">Product</li>
-                                    <li className="col-2">Quantity</li>
-                                    <li className="col-3">Category</li>
-                                    <li className="col-1"></li>
-                                </ul>
-                                {productsForGvt.map(obj => (
-                                    <ul className={`tableRow d-flex list-unstyled ml-2 mr-2 rounded ${activeItems.includes(obj._id) && "tableRowColor"}`} style={{ color: "#C4C4C4	" }} key={uuidv4()}>
-                                        <li className="col-2">  <Checkbox {...label} onChange={(event) => checkBoxChanged(event, obj._id)} className=" align-self-center text-primary" checked={activeItems.includes(obj._id)} /></li>
-                                        <li className="col-4">{obj.title}</li>
-                                        <li className="col-2">{obj.quantity}</li>
-                                        <li className="col-3 d-flex justify-content-center"><Chip label={obj.category} color="primary" variant="outlined" className="w-50" /></li>
-                                        <li className="col-1 h4 btn text-white d-flex m-0"><AiOutlineMore className="align-self-center" onClick={handleClickOpen} /></li>
-                                    </ul>)
-                                )}
-
-                            </div>
-                        </div>
-                    </div>
-
+                    {renderGovtProducts()}
+                    {<UpdateFairPrice />}
+                    {<Validator />}
                 </div>
 
                 <>

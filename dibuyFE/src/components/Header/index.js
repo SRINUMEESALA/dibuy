@@ -19,6 +19,7 @@ import { GrHistory } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BsChatRightDotsFill } from "react-icons/bs";
 import { deepOrange } from '@mui/material/colors';
+import { BiRupee } from "react-icons/bi";
 import "./index.css"
 import DiBuyContext from "../../context/DiBuyContext";
 import Badge from '@mui/material/Badge';
@@ -126,7 +127,7 @@ const Header = (props) => {
             onKeyDown={toggleDrawer(openingSide, false)}
         >
             <List>
-                {[{ displayText: 'Account', icon: <Avatar alt="RadheKrishna" sx={{ width: 24, height: 24, margin: 0, padding: 0, bgcolor: deepOrange[500] }} >{currentUser[0]}</Avatar>, path: "/user/account" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "DashBoard", icon: <MdSell className="h5 m-0" />, path: "/seller/dashboard" }, { displayText: "Admin", icon: <MdAdminPanelSettings className="h5 m-0" />, path: "/admin" }].map((obj, index) => (
+                {[{ displayText: 'Account', icon: <Avatar alt="RadheKrishna" sx={{ width: 24, height: 24, margin: 0, padding: 0, bgcolor: deepOrange[500] }} >{currentUser[0]}</Avatar>, path: "/user/account" }, { displayText: 'Orders', icon: <GrHistory className="h5 m-0" />, path: "/orders" }, { displayText: 'ChatUs', icon: <BsChatRightDotsFill className="h5 m-0" />, path: "/chatus" }, { displayText: "DashBoard", icon: <MdSell className="h5 m-0" />, path: "/seller/dashboard" }, { displayText: "Fair Price", icon: <BiRupee className="h5 m-0" />, path: "/fair-price" }, { displayText: "Admin", icon: <MdAdminPanelSettings className="h5 m-0" />, path: "/admin" }].map((obj, index) => (
                     <Link to={obj.path} className="link" key={obj.displayText}>
                         <ListItem disablePadding>
                             <ListItemButton>
