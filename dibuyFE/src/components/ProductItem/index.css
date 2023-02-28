@@ -3,7 +3,7 @@
 }
 
 .desingItemCardParentCon {
-    height: 65vh;
+    height: 60vh;
 }
 
 .storeName {
@@ -23,6 +23,13 @@
     color: #171f46;
 }
 
+.productImageCon {}
+
 .productImage {
+    width: 100%;
     height: 25vh;
+}
+
+.cardDetailsCon {
+    height: 35vh;
 }

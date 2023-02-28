@@ -59,7 +59,7 @@ class AdminLogin extends Component {
                 <div className="text-white bg-white  d-flex justify-content-center loginParentCon min-vh-100">
                     <div className='contentCon d-flex'>
                         <div className="col-6 d-flex justify-content-center align-items-center">
-                            <img className="w-100" alt="" src="https://img.freepik.com/premium-vector/online-registration_203633-559.jpg?w=740" />
+                            <img className="w-75" alt="" src="https://img.freepik.com/premium-vector/online-registration_203633-559.jpg?w=740" />
                         </div>
                         <div className='col-6 d-flex justify-content-center align-items-center'>
                             <form className="formCon p-4 pt-0 rounded w-50 shadow-lg" onSubmit={this.loggingIn}>

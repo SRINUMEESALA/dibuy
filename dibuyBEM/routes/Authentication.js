@@ -174,6 +174,7 @@ const verifyToken = async (request, response) => {
     try {
         jwt.verify(key, process.env.qrSecretCode, async (error, payload) => {
             if (error) {
+                console.log(error)
                 response.status(401)
                 response.send({ isValidUser: false, msg: `Invalid User` })
             } else {
@@ -185,7 +186,7 @@ const verifyToken = async (request, response) => {
     } catch (err) {
         console.log(err)
         response.status(500)
-        response.send({ msg: "Invalid User" })
+        response.send({ msg: "Something went wrong!" })
     }
 }
 
