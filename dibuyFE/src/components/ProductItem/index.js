@@ -13,11 +13,11 @@ const ProductItem = (props) => {
         <li className="col-md-3 col-12  p-2 productCard">
             <Link to={`/product/${_id}`} className="link">
                 <div className="card d-flex flex-column p-3 desingItemCardParentCon">
-                    <div className="mb-2 bg-info ">
+                    <div className="mb-2 ">
                         <img src={imageUrl} alt="productImage" className="productImage rounded" />
                     </div>
                     <div className="cardDetailsCon">
-                        <h5 className='productHeading'>{title}</h5>
+                        <h5 className='productHeading'>{`${title.slice(0, 18)}${title.length >= 18 ? ".." : ""}`}</h5>
                         <div className="d-flex justify-content-between mt-3 mb-2">
                             <p className="m-0 small">Price :</p>
                             <p className="filterHeading m-0 storeName h6">{`Rs. ${price}`}</p>
