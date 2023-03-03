@@ -148,12 +148,12 @@ export default productsRoute
 
 
 
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyRW1haWwiOiJzcmludXNyaTc2NTg1QGdtYWlsLmNvbSIsImlhdCI6MTY3NDcwODgzMX0.QNkp8Y4jhoKIezwAm8Nc4RYtHYeTX7AbgifIRLfCvpY"
 
 
 
-// const a = async () => {
-//     // const del = await Product.deleteMany()
-//     const update = await Product.updateMany({ saleType: "general" })
-// }
-// a()
+// sale type is not mentioned in dataset.so we have to set it to general to view on products section
+const a = async () => {
+    // const del = await Product.deleteMany()
+    const update = await Product.updateMany({ saleType: "general" })
+}
+a()
