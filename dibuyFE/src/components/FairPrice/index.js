@@ -6,9 +6,11 @@ import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import Header from "../Header"
-import Footer from "../Footer"
+import Header from "../Header";
+import Footer from "../Footer";
 import Stack from "@mui/material/Stack";
+import { serverUrl } from "../../sources";
+import Cookies from "js-cookie";
 
 const filtersList = [
   { id: uuidv4(), disPlayText: "All", category: "" },
@@ -48,13 +50,14 @@ class FairPrice extends Component {
   getFairPriceProducts = async () => {
     this.setState({ status: componentStatus.inProgress });
     const { searchInput, activeCategory } = this.state;
-    const url = `https://dibuybe.onrender.com/fair-price?category=${activeCategory}&search=${searchInput}`;
-    // console.log("url", url);
+    const url = `${serverUrl}/fair-price?category=${activeCategory}&search=${searchInput}`;
+
+    // const url = `https://dibuybe.onrender.com/fair-price?category=${activeCategory}&search=${searchInput}`;
+
     const options = {
       method: "GET",
       headers: {
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyRW1haWwiOiJzcmludXNyaTc2NTg1QGdtYWlsLmNvbSIsImlhdCI6MTY3NDcwODgzMX0.QNkp8Y4jhoKIezwAm8Nc4RYtHYeTX7AbgifIRLfCvpY",
+        authorization: `Bearer ${Cookies.get("jwtToken")}`,
       },
     };
     const response = await fetch(url, options);
@@ -89,8 +92,7 @@ class FairPrice extends Component {
                     ? "fairPriceFilterButtons text-primary activeColor rounded bg-light w-75 p-3"
                     : "fairPriceFilterButtons p-3"
                 }
-                onClick={this.onClickFiltersButton}
-              >
+                onClick={this.onClickFiltersButton}>
                 {each.disPlayText}
               </button>
             </li>
@@ -136,8 +138,7 @@ class FairPrice extends Component {
                 type="button"
                 onClick={this.onClickSearchButton}
                 className="input-group-text"
-                id="basic-addon1"
-              >
+                id="basic-addon1">
                 <BsSearch />
               </button>
             </div>
