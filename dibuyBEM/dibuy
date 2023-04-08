@@ -1,0 +1,4 @@
+port=4000
+remoteAtlasDbConnectionURI="mongodb+srv://SrinuMeesala:srinumeesala@clusterdibuy.cjtyiva.mongodb.net/dibuy?retryWrites=true&w=majority"
+qrSecretCode=radheradhe
+authCode=krishna
