@@ -2,9 +2,9 @@
     position: relative;
 }
 
-.desingItemCardParentCon {
+/* .desingItemCardParentCon {
     height: 60vh;
-}
+} */
 
 .storeName {
     font-size: 15px;
@@ -30,6 +30,6 @@
     height: 25vh;
 }
 
-.cardDetailsCon {
+/* .cardDetailsCon {
     height: 35vh;
-}
+} */
